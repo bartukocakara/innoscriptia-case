@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Services;
+
+use App\Repositories\Interfaces\$name$RepositoryInterface;
+use App\Services\Interfaces\$name$ServiceInterface;
+
+class $name$Service extends CrudService implements $name$ServiceInterface
+{
+    // Crud işlemleri gerekmiyorsa extends'i kaldırınız. //
+
+    protected $name$RepositoryInterface $$variable$;
+
+    /**
+     * @param $name$RepositoryInterface $$variable$
+     * @return void
+    */
+    public function __construct($name$RepositoryInterface $$variable$)
+    {
+        $this->$variable$ = $$variable$;
+        // Extend ettiğimiz CrudService'in __construct methoduna repositoryi gönderiyoruz.
+        parent::__construct($this->$variable$); // Crud işlemleri yoksa kaldırınız.
+        // Repository bu serviste kullanılmak üzere değişkene tanımlanıyor.
+    }
+}

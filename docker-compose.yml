@@ -1,0 +1,102 @@
+version: '3.9'
+
+services:
+  backend:
+    container_name: 'backend'
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: pgsql
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: password
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    networks:
+      - app
+
+  # frontend:
+  #   container_name: 'frontend'
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=production
+  #   command: npm start
+  #   networks:
+  #     - app
+
+  postgres:
+    container_name: "postgres"
+    image: postgres:latest
+    volumes:
+      - "./docker/volumes/postgres:/var/lib/postgres"
+    environment:
+      - POSTGRES_DB=laravel
+      - POSTGRES_USER=laravel
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    networks:
+      - app
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
+      retries: 3
+      timeout: 5s
+
+  phppgadmin:
+    container_name: 'phppgadmin'
+    image: 'dpage/pgadmin4'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'laravel@gmail.com'
+      PGADMIN_DEFAULT_PASSWORD: 'password'
+    ports:
+      - 8083:80
+    depends_on:
+      - postgres
+    networks:
+      - app
+
+  redis:
+    container_name: 'redis'
+    image: 'redis:alpine'
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - ./docker/volumes/redis:/data
+    networks:
+      - app
+
+  elasticsearch:
+    container_name: 'elasticsearch'
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.15.0'
+    environment:
+      - discovery.type=single-node
+    ports:
+      - '9200:9200'
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  redis:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker/volumes/redis
+  postgres:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker/volumes/postgres
