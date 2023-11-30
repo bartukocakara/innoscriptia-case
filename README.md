@@ -7,7 +7,7 @@ Before proceeding with the installation, please make sure that Git and Docker ar
 First, clone the project to the desired directory using Git:
 
 ```bash
-git clone https://github.com/umituzz/innoscripta
+git clone https://github.com/bartukocakara/innoscriptia-case
 ```
 Then navigate to the project directory:
 
