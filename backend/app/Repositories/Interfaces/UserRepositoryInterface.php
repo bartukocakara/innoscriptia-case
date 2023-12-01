@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\User;
+
 interface UserRepositoryInterface extends BaseRepositoryInterface
 {
-    // Crud işlemleri gerekmiyorsa extends'i kaldırınız. //
+    public function findByKey(array $params): User|null;
 }

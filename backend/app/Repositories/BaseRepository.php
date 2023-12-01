@@ -45,7 +45,7 @@ class BaseRepository
     /**
      * Kaynağı görüntülemek için kullanılır.
      *
-     * @param int $id
+     * @param string $id
      * @return Model
     */
     public function find(string $id) : Model
@@ -57,7 +57,7 @@ class BaseRepository
      * Kaynağı güncellemek için kullanılır.
      *
      * @param array $data
-     * @param int $id
+     * @param string $id
      * @return bool
     */
     public function update(array $data, string $id) : bool
@@ -68,7 +68,7 @@ class BaseRepository
     /**
      * Kaynağı kaldırmak için kullanılır.
      *
-     * @param int $id
+     * @param string $id
      * @return bool
     */
     public function delete(string $id) : bool

@@ -22,4 +22,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         // Model bu repoda kullanılmak üzere değişkene tanımlanıyor.
         $this->user = $user;
     }
+
+    public function findByKey(array $params): User|null
+    {
+        return $this->user->where($params)->first();
+    }
 }

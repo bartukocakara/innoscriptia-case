@@ -22,4 +22,14 @@ class SourceRepository extends BaseRepository implements SourceRepositoryInterfa
         // Model bu repoda kullanılmak üzere değişkene tanımlanıyor.
         $this->source = $source;
     }
+
+    /**
+     * Find related record by value
+     *
+     * @return mixed
+     */
+    public function findBy($key, $value) : Source|null
+    {
+        return $this->model->where($key, $value)->first();
+    }
 }

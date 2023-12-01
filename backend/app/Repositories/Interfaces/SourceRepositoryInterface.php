@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Source;
+
 interface SourceRepositoryInterface extends BaseRepositoryInterface
 {
-    // Crud işlemleri gerekmiyorsa extends'i kaldırınız. //
+    public function findBy($key, $value) : Source|null;
 }

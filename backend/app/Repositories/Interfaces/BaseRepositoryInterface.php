@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -29,7 +28,7 @@ interface BaseRepositoryInterface
     /**
      * Kaynağı görüntülemek için kullanılır.
      *
-     * @param int $id
+     * @param string $id
      * @return Model
     */
     public function find(string $id) : Model;
@@ -38,15 +37,15 @@ interface BaseRepositoryInterface
      * Kaynağı güncellemek için kullanılır.
      *
      * @param array $data
-     * @param int $id
+     * @param string $id
      * @return bool
     */
-    public function update(array $data, int $id = null) : bool;
+    public function update(array $data, string $id) : bool;
 
     /**
      * Kaynağı kaldırmak için kullanılır.
      *
-     * @param int $id
+     * @param string $id
      * @return bool
     */
     public function delete(string $id) : bool;
