@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::view('/docs', 'docs');
 
 Route::group([
     'middleware' => 'api',

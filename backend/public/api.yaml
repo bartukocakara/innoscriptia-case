@@ -1,0 +1,669 @@
+openapi: 3.0.0
+info:
+  title: Innoscripta Api
+  version: 1.0.0
+servers:
+  - url: 'http://innoscripta.local/api'
+paths:
+  /articles:
+    get:
+      tags:
+        - Articles
+      summary: Article List
+      description: For Listing articles.
+      operationId: 8809abc838caecf93f6092a12480fdba
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sort_field
+          in: query
+          description: Sıralama öğesini belirlemek için kullanılır
+          required: true
+          example: id
+        - name: sort_order
+          in: query
+          description: Sıralama koşulunu belirtmek için kullanılır
+          required: true
+          example: asc
+        - name: per_page
+          in: query
+          description: Sayfa başına kaç veri düşüceğini belirtmek için kullanılır
+          required: true
+          example: '10'
+        - name: page
+          in: query
+          description: Kaçıncı sayfa olduğunu belirlemek için kullanılır
+          required: false
+          example: '1'
+        - name: name
+          in: query
+          description: Articlenın ismi
+          required: false
+          example: 'Kesinlikle araç önerilemez'
+        - name: message
+          in: query
+          description: Articledan çıkan sonuç mesajı
+          required: false
+          example: 'Kesinlikle araç önerilemez'
+        - name: description
+          in: query
+          description: Articlenın açıklaması
+          required: false
+          example: 'Kesinlikle araç önerilemez açıklama'
+        - name: status
+          in: query
+          description: Articlenın durumu
+          required: false
+          example: true
+      responses:
+        '200':
+          description: Başarılı cevap
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleList'
+    post:
+      tags:
+        - Articles
+      summary: Article Oluşturma
+      description: Article oluşturmak için kullanılır.
+      operationId: b3471524a5057abc32782e359c8f53b5
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: name
+          in: query
+          description: İsim
+          required: true
+          example: test name
+        - name: user_id
+          in: query
+          description: User Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+        - name: message
+          in: query
+          description: Mesaj
+          required: true
+          example: Araç önerilmez
+        - name: description
+          in: query
+          description: Açıklama
+          required: true
+          example: Araç önerilmez açıklama
+        - name: status
+          in: query
+          description: Durum
+          required: false
+          example: true
+        - name: sort
+          in: query
+          description: Sıralama
+          required: true
+          example: 3
+        - name: is_all_required
+          in: query
+          description: Hepsi gerekli mi
+          required: true
+          example: 1
+      responses:
+        '201':
+          description: Create success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: {}
+                type: object
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+  /articles/{articleId}:
+    get:
+      tags:
+        - Articles
+      summary: Article Show
+      description: For showing article.
+      operationId: 5309957440e357185a94c9a140e4bbc8
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ArticleId
+          in: path
+          description: Article Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+      responses:
+        '200':
+          description: Show success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '500':
+          description: No data found
+    put:
+      tags:
+        - Articles
+      summary: Article Update
+      description: For updating article .
+      operationId: 867fa32907f0da4da68572e2db9e1c1e
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ArticleId
+          in: path
+          description: Article id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+        - name: name
+          in: query
+          description: Name
+          required: true
+          example: test name
+        - name: user_id
+          in: query
+          description: User Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+        - name: message
+          in: query
+          description: Mesaj
+          required: true
+          example: Araç önerilmez
+        - name: description
+          in: query
+          description: Açıklama
+          required: true
+          example: Araç önerilmez açıklama
+        - name: status
+          in: query
+          description: Durum
+          required: false
+          example: true
+        - name: sort
+          in: query
+          description: Sıralama
+          required: true
+          example: 3
+        - name: is_all_required
+          in: query
+          description: Hepsi gerekli mi
+          required: true
+          example: 1
+      responses:
+        '204':
+          description: Update success response
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+    delete:
+      tags:
+        - Articles
+      summary: Article Delete
+      description: For deleting article.
+      operationId: 4d3eb3715fd143bcdbe06c6a75142995
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ArticleId
+          in: path
+          description: Article Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+      responses:
+        '204':
+          description: Delete success response
+        '500':
+          description: No data found
+
+  # Authantication
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Entry system
+      description: Login with credentials to get authorized.
+      operationId: authLogin
+      parameters:
+        - name: username
+          in: query
+          description: Username
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: Password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Successful
+                type: object
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /profile:
+    get:
+      tags:
+        - Authentication
+      summary: Show profil info
+      description: For showing user profile.
+      operationId: e92c58f994e8be6e19813ce20425f83e
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Successful
+                type: object
+        '422':
+          description: Wrong credentials Response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Sorry, wrong email address or password. Please try again'
+                type: object
+
+  # USERS
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Users List
+      description: For listing users.
+      operationId: 7e2f5799553ec93c9c43e2a58490d447
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sort_field
+          in: query
+          description: Used to specify the field for sorting.
+          required: true
+          example: id
+
+        - name: sort_order
+          in: query
+          description: Used to specify the sorting order.
+          required: true
+          example: asc
+
+        - name: per_page
+          in: query
+          description: Used to determine the number of data per page.
+          required: true
+          example: '10'
+
+        - name: page
+          in: query
+          description: Used to determine the page number.
+          required: false
+          example: '1'
+
+        - name: first_name
+          in: query
+          description: First name.
+          required: false
+          example: 'ABC'
+
+        - name: last_name
+          in: query
+          description: Last name.
+          required: false
+          example: 'ABC'
+
+        - name: email
+          in: query
+          description: Email address.
+          required: false
+          example: 'kocakarabartu@gmail.com'
+
+      responses:
+        '200':
+          description: Başarılı cevap
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+    post:
+      tags:
+        - Users
+      summary: Create User
+      description: For creating user.
+      operationId: a1fce870c566eb5fc0cf3178ec5d2fed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: first_name
+          in: query
+          description: First name
+          required: true
+          example: 'ABC'
+        - name: email
+          in: query
+          description: Email
+          required: false
+          example: 'kocakarabartu@gmail.com'
+        - name: phone
+          in: query
+          description: Telefon
+          required: false
+          example: '5556667788'
+
+      responses:
+        '201':
+          description: Create success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+  '/users/{userId}':
+    get:
+      tags:
+        - Users
+      summary: Show user
+      description: For showing user.
+      operationId: cef8a64dad4500c2b80708ac3f63c2b2
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          description: User Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+      responses:
+        '200':
+          description: Show success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '500':
+          description: No data found
+    put:
+      tags:
+        - Users
+      summary: Update user
+      description: Kullanıcıyı güncellemek için kullanılır.
+      operationId: 41d38a4f8e33cc6adbda34fec285a8e7
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          description: Sıralama öğesini belirlemek için kullanılır
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+        - name: id_no
+          in: query
+          description: Kimlik numarası
+          required: true
+          example: 'TR123'
+        - name: name
+          in: query
+          description: Ad
+          required: true
+          example: 'ABC'
+        - name: email
+          in: query
+          description: Email
+          required: false
+          example: 'kocakarabartu@gmail.com'
+        - name: phone
+          in: query
+          description: Telefon
+          required: false
+          example: '5556667788'
+
+      responses:
+        '204':
+          description: Update success response
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+    delete:
+      tags:
+        - Users
+      summary: Delete User
+      description: For deleting user
+      operationId: 6c232647ae35ae46389c02a869406dcc
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          description: User Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+      responses:
+        '204':
+          description: Delete success response
+        '500':
+          description: No data found
+
+components:
+  schemas:
+    ArticleList:
+      type: object
+      properties:
+        message:
+          type: string
+          example: OK
+        statusCode:
+          type: integer
+          format: int64
+          example: 200
+        status:
+          type: string
+          example: success
+        result:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Article id
+                  name:
+                    type: string
+                    description: Article title
+                  message:
+                    type: string
+                    description: Article mesajı
+                  description:
+                    type: string
+                    description: Article açıklaması
+                  sort:
+                    type: integer
+                    description: Article sıralaması
+                  is_all_required:
+                    type: boolean
+                    description: Article hepsi gerekli mi
+    UserList:
+      type: object
+      properties:
+        message:
+          type: string
+          example: OK
+        statusCode:
+          type: integer
+          format: int64
+          example: 200
+        status:
+          type: string
+          example: success
+        result:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: id
+                  id_no:
+                    type: string
+                    description: Kimlik numarası
+                  name:
+                    type: string
+                    description: Ad
+                  accounting_title:
+                    type: string
+                    description: Başlığı
+                  accounting_code:
+                    type: string
+                    description: Kişisel kodu
+    StatusOk:
+      type: object
+      properties:
+        message:
+          type: string
+          example: OK
+        statusCode:
+          type: integer
+          format: int64
+          example: 200
+        status:
+          type: string
+          example: success
+        result:
+          type: array
+    ApiResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: OK
+        statusCode:
+          type: integer
+          format: int64
+          example: 200
+        status:
+          type: string
+          example: success
+    UnauthorizedOperation:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Unauthorized operation
+        statusCode:
+          type: integer
+          example: 401
+        status:
+          type: string
+          example: error
+        result:
+          type: array
+          items: null
+    ValidationError:
+      type: object
+      properties:
+        title:
+          type: array
+          items:
+            type: string
+            example : Title field is required
+    InternalServerError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 500
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
