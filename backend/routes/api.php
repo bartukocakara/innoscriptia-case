@@ -2,6 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\SourceController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +31,14 @@ Route::group([
         $router->post('/refresh', 'refresh')->name('refresh');
 
     });
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::apiResource('users', UserController::class)->only('index', 'show');
+    Route::apiResource('articles', ArticleController::class)->only('index', 'show');
+    Route::apiResource('categories', CategoryController::class)->only('index');
+    Route::apiResource('preferences', CategoryController::class)->only('index', 'show');
+    Route::apiResource('sources', SourceController::class)->only('index', 'show');
+    Route::apiResource('authors', AuthorController::class)->only('index', 'show');
 });

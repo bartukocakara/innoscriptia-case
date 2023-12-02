@@ -2,10 +2,11 @@
 
 namespace Tests\Feature\Controllers;
 
-use App\Models\User;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Tests\Feature\BaseTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserControllerTest extends BaseTestCase
 {

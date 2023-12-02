@@ -35,7 +35,7 @@ return [
         'api_key' => env('GUARDIAN_API_KEY'),
     ],
 
-    'news_ppi' => [
+    'news_api' => [
         'api_url' => env('NEWS_API_URL'),
         'api_key' => env('NEWS_API_KEY'),
     ],

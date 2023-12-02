@@ -44,11 +44,6 @@ class CreateApiPattern extends Command
             'type' => 'repository',
         ]);
 
-        $this->call('make:i', [
-            'name' => $this->argument('name'),
-            'type' => 'service',
-        ]);
-
         $this->call('make:test-own', [
             'name' => $this->argument('name'),
         ]);

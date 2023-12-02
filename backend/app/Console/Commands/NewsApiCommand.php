@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Console\Commands\Api;
+namespace App\Console\Commands;
 
 use App\Enums\SourceEnums;
-use App\Jobs\Api\GetNewsApiJob;
-use App\Services\Article\SourceService;
+use App\Jobs\GetNewsApiJob;
+use App\Repositories\SourceRepository;
 use Illuminate\Console\Command;
 
 /**
@@ -26,13 +26,13 @@ class NewsApiCommand extends Command
      */
     protected $description = 'Get api data from NewsAPI';
 
-    private SourceService $sourceService;
+    private SourceRepository $sourceRepository;
 
-    public function __construct(SourceService $sourceService)
+    public function __construct(SourceRepository $sourceRepository)
     {
         parent::__construct();
 
-        $this->sourceService = $sourceService;
+        $this->sourceRepository = $sourceRepository;
     }
 
     /**
@@ -40,7 +40,7 @@ class NewsApiCommand extends Command
      */
     public function handle()
     {
-        $item = $this->sourceService->findBy('name', SourceEnums::NEWS);
+        $item = $this->sourceRepository->findBy('name', SourceEnums::NEWS);
 
         if ($item) {
             GetNewsApiJob::dispatch($item->id);

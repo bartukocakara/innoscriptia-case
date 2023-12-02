@@ -20,13 +20,10 @@ class MakeInterfaceCommand extends Command
      *
      * @var string
     */
-    protected $description = 'Make an Interface Class - arguments: r for Repo, s for Service';
+    protected $description = 'Make an Interface Class - arguments: r for Repo';
 
     protected $shortRepository = 'r';
     protected $repository = 'repository';
-
-    protected $shortService = 's';
-    protected $service = 'service';
 
     /**
      * Filesystem instance
@@ -176,14 +173,6 @@ class MakeInterfaceCommand extends Command
                 $dynamics['parent_interface'] = "BaseRepositoryInterface";
                 $dynamics['comment'] = "// Crud işlemleri gerekmiyorsa extends'i kaldırınız. //";
                 break;
-
-            case $this->shortService:
-            case $this->service:
-                $dynamics['subPath'] = "Services";
-                $dynamics['stub_path'] = '/../stubs/interface.stub';
-                $dynamics['parent_stub_path'] = '/../stubs/interface.service.crud.stub';
-                $dynamics['parent_interface'] = "CrudServiceInterface";
-                $dynamics['comment'] = "// Crud işlemleri gerekmiyorsa extends'i kaldırınız. //";
 
             default:
                 break;

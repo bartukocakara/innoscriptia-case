@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ArticleResource;
-use App\Services\Interfaces\ArticleServiceInterface;
+use App\Services\ArticleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    private ArticleServiceInterface $articleService;
+    private ArticleService $articleService;
 
     /**
-     * Service interface tanımlanıyor.
+     * Service  tanımlanıyor.
      *
-     * @param  ArticleServiceInterface $articleService
+     * @param  ArticleService $articleService
      * @return void
     */
-    public function __construct(ArticleServiceInterface $articleService)
+    public function __construct(ArticleService $articleService)
     {
         $this->articleService = $articleService;
     }
@@ -40,17 +40,6 @@ class ArticleController extends Controller
     }
 
     /**
-     * Yeni bir kaynağı kaydetmek için kullanılır.
-     *
-     * @param  ArticleRequest $request
-     * @return JsonResponse
-    */
-    public function store(ArticleRequest $request) : JsonResponse
-    {
-        return $this->createdApiResponse($this->articleService->store($request->validated()));
-    }
-
-    /**
      * Kaynağı görüntülemek için kullanılır.
      *
      * @param  string $id
@@ -59,18 +48,6 @@ class ArticleController extends Controller
     public function show(string $id) : JsonResponse
     {
         return $this->okApiResponse(new ArticleResource($this->articleService->show($id)));
-    }
-
-    /**
-     * Kaynağı güncellemek için kullanılır.
-     *
-     * @param  ArticleRequest $request
-     * @param  string $id
-     * @return JsonResponse
-    */
-    public function update(ArticleRequest $request, string $id) : JsonResponse
-    {
-        return $this->noContentApiResponse($this->articleService->update($request->validated(), $id));
     }
 
     /**

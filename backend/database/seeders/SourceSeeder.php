@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Source;
 use Illuminate\Database\Seeder;
 
+/**
+ * Class SourceSeeder
+ */
 class SourceSeeder extends Seeder
 {
     /**
@@ -12,6 +15,9 @@ class SourceSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Source::create(['name' => 'Guardian API']);
+        Source::create(['name' => 'News API']);
+        Source::create(['name' => 'Media Stack API']);
+        Source::create(['name' => 'Newyork Times API']);
     }
 }

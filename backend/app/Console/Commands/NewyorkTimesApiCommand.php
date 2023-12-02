@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Console\Commands\Api;
+namespace App\Console\Commands;
 
 use App\Enums\SourceEnums;
-use App\Jobs\Api\GetNewyorkTimesApiJob;
-use App\Services\Article\SourceService;
+use App\Jobs\GetNewyorkTimesApiJob;
+use App\Repositories\SourceRepository;
 use Illuminate\Console\Command;
 
 /**
@@ -17,7 +17,7 @@ class NewyorkTimesApiCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'api:newyorkTimes';
+    protected $signature = 'api:newyork-times';
 
     /**
      * The console command description.
@@ -26,9 +26,9 @@ class NewyorkTimesApiCommand extends Command
      */
     protected $description = 'Get api data from Newyork Times';
 
-    private SourceService $sourceService;
+    private SourceRepository $sourceService;
 
-    public function __construct(SourceService $sourceService)
+    public function __construct(SourceRepository $sourceService)
     {
         parent::__construct();
 

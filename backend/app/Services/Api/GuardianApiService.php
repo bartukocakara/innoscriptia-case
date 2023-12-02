@@ -2,68 +2,71 @@
 
 namespace App\Services\Api;
 
-use App\Contracts\ApiServiceInterface;
-use App\Enums\AuthorEnums;
 use Exception;
+use App\Enums\AuthorEnums;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 /**
  * Class GuardianApiService
  */
-class GuardianApiService extends BaseApiService implements ApiServiceInterface
+class GuardianApiService extends BaseApiService
 {
     public function getUrl(): string
     {
-        return config('services.guardianApi.api_url').'/search?api-key='.config('services.guardianApi.api_key');
+        return config('services.guardian_api.api_url').'/search?api-key='.config('services.guardian_api.api_key');
     }
 
     public function getData($sourceId)
     {
         try {
             $url = $this->getUrl();
-            $response = $this->httpService->getResult($url);
+            $response = Http::get($url);
 
             if (! $response) {
-                $this->logInfo(__('No data received from the API'));
+                Log::warning('No data received from the API');
 
                 return false;
             }
 
-            $items = $response->response->results;
+            $items = $response->json()['response']['results'];
 
             if (empty($items)) {
-                $this->logInfo(__('No data available in the API response'));
+                Log::warning('No data available in the API response');
 
                 return false;
             }
 
-            $author = $this->authorService->findBy('name', AuthorEnums::GUARDIAN_AUTHOR);
+            $author = $this->authorRepository->findBy('name', AuthorEnums::GUARDIAN_AUTHOR);
 
             collect($items)->map(function ($item) use ($sourceId, $author) {
 
-                $category = $this->categoryService->firstOrCreate('name', [
-                    'name' => $item->sectionName,
-                    'slug' => $item->sectionId,
+                $category = $this->categoryRepository->firstOrCreate('name', [
+                    'name' => $item['sectionName'],
+                    'slug' => $item['sectionId'],
                 ]);
 
-                $this->articleService->firstOrCreate('title', [
+                                $title = $item['title'] ?? $this->defaultTitle();
+
+                $this->articleRepository->firstOrCreate('title', [
                     'source_id' => $sourceId,
                     'category_id' => $category->id,
                     'author_id' => $author->id,
-                    'title' => $item->webTitle,
-                    'slug' => Str::slug($item->webTitle),
+                    'title' => $item['webTitle'],
+                    'slug' => Str::slug($item['webTitle']),
                     'description' => $this->defaultDescription(),
-                    'url' => $item->webUrl,
+                    'url' => $item['webUrl'],
                     'image' => $this->defaultImage(),
-                    'published_at' => $item->webPublicationDate,
+                    'published_at' => $item['webPublicationDate'],
                 ]);
             });
 
-            $this->logInfo(__('Guardian API data inserted successfully!'));
+            Log::info('Guardian API data inserted successfully!');
 
             return true;
         } catch (Exception $exception) {
-            $this->logError($exception);
+            Log::error($exception);
 
             return false;
         }

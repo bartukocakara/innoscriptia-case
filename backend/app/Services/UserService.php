@@ -3,9 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Services\Interfaces\UserServiceInterface;
 
-class UserService extends CrudService implements UserServiceInterface
+class UserService extends CrudService
 {
     // Crud işlemleri gerekmiyorsa extends'i kaldırınız. //
 

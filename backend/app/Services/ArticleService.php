@@ -3,12 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
-use App\Services\Interfaces\ArticleServiceInterface;
 
-class ArticleService extends CrudService implements ArticleServiceInterface
+class ArticleService extends CrudService
 {
-    // Crud işlemleri gerekmiyorsa extends'i kaldırınız. //
-
     protected ArticleRepositoryInterface $articleRepository;
 
     /**

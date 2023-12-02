@@ -2,69 +2,70 @@
 
 namespace App\Services\Api;
 
-use App\Contracts\ApiServiceInterface;
 use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 /**
  * Class NewyorkTimesApiService
  */
-class NewyorkTimesApiService extends BaseApiService implements ApiServiceInterface
+class NewyorkTimesApiService extends BaseApiService
 {
     public function getUrl(): string
     {
-        return config('services.newyorkTimesApi.api_url').'/1.json?api-key='.config('services.newyorkTimesApi.api_key');
+        return config('services.newyork_times_api.api_url').'/1.json?api-key='.config('services.newyork_times_api.api_key');
     }
 
     public function getData($sourceId)
     {
         try {
             $url = $this->getUrl();
-            $response = $this->httpService->getResult($url);
+            $response = Http::get($url);
 
             if (! $response) {
-                $this->logInfo(__('No data received from the API'));
+                Log::warning('No data received from the API');
 
                 return false;
             }
 
-            $items = $response->results;
+            $items = $response->json()['results'];
 
             if (empty($items)) {
-                $this->logInfo(__('No data available in the API response'));
+                Log::warning('No data available in the API response');
 
                 return false;
             }
 
             collect($items)->map(function ($item) use ($sourceId) {
-                $author = $this->authorService->firstOrCreate('name', [
-                    'name' => $item->byline,
+                $author = $this->authorRepository->firstOrCreate('name', [
+                    'name' => $item['byline'],
                 ]);
 
-                $category = $this->categoryService->firstOrCreate('name', [
-                    'name' => $item->section,
-                    'slug' => Str::slug($item->section),
+                $category = $this->categoryRepository->firstOrCreate('name', [
+                    'name' => $item['section'],
+                    'slug' => Str::slug($item['section']),
                 ]);
 
-                $this->articleService->firstOrCreate('title', [
+                $this->articleRepository->firstOrCreate('title', [
                     'source_id' => $sourceId,
                     'author_id' => $author->id,
                     'category_id' => $category->id,
-                    'title' => $item->title,
-                    'slug' => Str::slug($item->title),
+                    'title' => $item['title'],
+                    'slug' => Str::slug($item['title']),
                     'description' => $this->defaultDescription(),
-                    'url' => $item->url,
+                    'url' => $item['url'],
                     'image' => $this->defaultImage(),
-                    'published_at' => $item->published_date,
+                    'published_at' => $item['published_date'],
                 ]);
 
             });
 
-            $this->logInfo(__('Newyork Times API data inserted successfully!'));
+            Log::info(__('Newyork Times API data inserted successfully!'));
 
             return true;
         } catch (Exception $exception) {
-            $this->logError($exception);
+            Log::error($exception);
 
             return false;
         }

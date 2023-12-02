@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Jobs;
 
 use App\Services\Api\NewyorkTimesApiService;
 use Illuminate\Bus\Queueable;

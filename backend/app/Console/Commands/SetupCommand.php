@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Artisan;
  */
 class SetupCommand extends Command
 {
-    protected $signature = 'setup';
+    protected $signature = 'setup:all';
 
     protected $description = 'Setup data for project';
 

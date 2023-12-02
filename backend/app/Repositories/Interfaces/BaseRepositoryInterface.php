@@ -34,6 +34,17 @@ interface BaseRepositoryInterface
     public function find(string $id) : Model;
 
     /**
+     * Kaynağı anahtara göre bulmak için kullanılır.
+     *
+     * @param string $key
+     * @param string $value
+     * @return Model
+    */
+    public function findBy($key, $value) : Model|null;
+
+    public function firstOrCreate($key, $data);
+
+    /**
      * Kaynağı güncellemek için kullanılır.
      *
      * @param array $data

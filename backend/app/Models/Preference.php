@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Preference extends Model
 {
-    use HasFactory, UUID;
+    use HasFactory;
 }

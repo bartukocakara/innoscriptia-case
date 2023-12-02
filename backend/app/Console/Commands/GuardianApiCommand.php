@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Console\Commands\Api;
+namespace App\Console\Commands;
 
 use App\Enums\SourceEnums;
-use App\Jobs\Api\GetGuardianApiJob;
-use App\Services\Article\SourceService;
+use App\Jobs\GetGuardianApiJob;
+use App\Repositories\SourceRepository;
 use Illuminate\Console\Command;
 
 /**
@@ -26,13 +26,13 @@ class GuardianApiCommand extends Command
      */
     protected $description = 'Get api data from Guardian';
 
-    private SourceService $sourceService;
+    private SourceRepository $sourceRepository;
 
-    public function __construct(SourceService $sourceService)
+    public function __construct(SourceRepository $sourceRepository)
     {
         parent::__construct();
 
-        $this->sourceService = $sourceService;
+        $this->sourceRepository = $sourceRepository;
     }
 
     /**
@@ -40,7 +40,7 @@ class GuardianApiCommand extends Command
      */
     public function handle()
     {
-        $item = $this->sourceService->findBy('name', SourceEnums::GUARDIAN);
+        $item = $this->sourceRepository->findBy('name', SourceEnums::GUARDIAN);
 
         if ($item) {
 

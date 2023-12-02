@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ArticleCategory>
+ * @extends Factory<Author>
  */
-class ArticleCategoryFactory extends Factory
+class AuthorFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +18,7 @@ class ArticleCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word,
         ];
     }
 }

@@ -3,9 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\SourceRepositoryInterface;
-use App\Services\Interfaces\SourceServiceInterface;
 
-class SourceService extends CrudService implements SourceServiceInterface
+class SourceService extends CrudService
 {
     // Crud işlemleri gerekmiyorsa extends'i kaldırınız. //
 

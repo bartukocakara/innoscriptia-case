@@ -53,6 +53,23 @@ class BaseRepository
         return $this->model->findOrFail($id);
     }
 
+    public function firstOrCreate($key, $data)
+    {
+        return $this->model->firstOrCreate([$key => $data[$key]], $data);
+    }
+
+    /**
+     * Kaynağı anahtara göre bulmak için kullanılır.
+     *
+     * @param string $key
+     * @param string $value
+     * @return Model|null
+    */
+    public function findBy($key, $value) : Model|null
+    {
+        return $this->model->where($key, $value)->first();
+    }
+
     /**
      * Kaynağı güncellemek için kullanılır.
      *

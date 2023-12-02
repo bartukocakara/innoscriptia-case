@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Api;
+namespace App\Jobs;
 
 use App\Services\Api\GuardianApiService;
 use Illuminate\Bus\Queueable;

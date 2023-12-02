@@ -101,7 +101,6 @@ class MakeServiceCommand extends Command
             'class_name' => $this->getSingularClassName($this->argument('name')).'Service',
             'repository' => $this->getSingularClassName($this->argument('name')).'RepositoryInterface',
             'variable' => lcfirst($this->argument('name')).'Repository',
-            'interface' => $this->getSingularClassName($this->argument('name')).'ServiceInterface',
         ];
     }
 
