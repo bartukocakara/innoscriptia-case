@@ -33,6 +33,7 @@ export const LoginUser = async (credentials, navigate) => {
             var user = response.result.user
             localStorage.setItem('token', JSON.stringify(token))
             localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('preferences', JSON.stringify(user.preferences))
             setTimeout(() => {
                 navigate('/articles')
             }, 1500)

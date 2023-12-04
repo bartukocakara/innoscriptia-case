@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PreferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +37,13 @@ Route::group([
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('users', UserController::class)->only('index', 'show');
-    Route::apiResource('articles', ArticleController::class)->only('index', 'show');
+    Route::apiResource('articles', ArticleController::class)->only('index');
+    Route::get('articles/{slug}', [ArticleController::class, 'slug']);
+    Route::apiResource('users/{userId}/preferences', PreferenceController::class);
+    Route::post('users/{userId}/preferences/categories', [PreferenceController::class, 'categoriesAttach']);
+    Route::post('users/{userId}/preferences/authors', [PreferenceController::class, 'authorsAttach']);
+    Route::post('users/{userId}/preferences/sources', [PreferenceController::class, 'sourcesAttach']);
     Route::apiResource('categories', CategoryController::class)->only('index');
-    Route::apiResource('preferences', CategoryController::class)->only('index', 'show');
     Route::apiResource('sources', SourceController::class)->only('index', 'show');
     Route::apiResource('authors', AuthorController::class)->only('index', 'show');
 });

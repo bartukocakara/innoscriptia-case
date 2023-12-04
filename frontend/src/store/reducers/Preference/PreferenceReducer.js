@@ -1,38 +1,38 @@
 const initState = {
-    settings:""
+    preferences:""
     }
-    const SettingsReducer = (state=initState, action) =>{
+    const PreferenceReducer = (state=initState, action) =>{
             switch(action.type){
             
             case 'LOADING':
                     return {
                         ...state,
-                        settings:'loading'
+                        preferences:'loading'
                     }
 
-            case 'LOAD_SETTINGS_SUCCESS':
+            case 'LOAD_PREFERENCE_SUCCESS':
                     return {
                         ...state,
-                        settings:action.res,
+                        preferences:action.res,
                     }
     
-            case 'LOAD_SETTINGS_ERROR':
+            case 'LOAD_PREFERENCE_ERROR':
                     console.log(action)
 
                     return {
                         ...state,
-                        settings:action.res,
+                        preferences:action.res,
                     }
     
             case 'CODE_ERROR':
                             console.log(action)
                     return {
                         ...state,
-                        settings:'there seems to be a problem please refresh your browser',
+                        preferences:'there seems to be a problem please refresh your browser',
                     }
             default:
                     return state
         }
     }
     
-    export default SettingsReducer;
+    export default PreferenceReducer;

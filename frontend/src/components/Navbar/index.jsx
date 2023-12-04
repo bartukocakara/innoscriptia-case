@@ -9,9 +9,7 @@ const Index = () => {
                 <ul className="navbar-item theme-brand d-flex flex-row">
                     <li className="nav-item theme-text">
                         <Link to="/articles" className="nav-link">
-                            <img src='/logos/logo-no-background.png' 
-                                 style={{ width:'130px', height: '40px' }} 
-                                 alt='logo' />
+                            Innoscripta
                         </Link>
                     </li>
                 </ul>

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class PreferenceSourceRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,8 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'source_ids' => 'array',
+            'source_ids.*' => 'uuid|exists:sources,id',
         ];
     }
 }

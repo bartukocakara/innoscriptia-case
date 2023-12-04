@@ -10,14 +10,19 @@ export const FilterContext = createContext({
 export const FilterProvider = ({ children }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [perPage, setPerPage] = useState(10)
+    const preferences = localStorage.getItem('preferences') && JSON.parse(localStorage.getItem('preferences'))
 
     const [searchStatus, setSearchStatus] = useState({
         filters: false,
         search: true,
     });
 
+    console.log(preferences);
+
     const [articleFilters, setArticleFilters] = useState({
-        'preferences[]' : [],
+        // 'category_ids[]' : preferences.categories.map((item) => [item.id]),
+        // 'author_ids[]' : preferences.authors.map((item) => [item.id]),
+        // 'source_ids[]' : preferences.sources.map((item) => [item.id]),
     });
 
 

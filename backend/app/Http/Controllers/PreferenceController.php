@@ -3,40 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PreferenceAuthorRequest;
+use App\Http\Requests\PreferenceCategoryRequest;
 use App\Http\Requests\PreferenceRequest;
-use App\Http\Resources\PreferenceResource;
-use App\Services\Interfaces\PreferenceServiceInterface;
+use App\Http\Requests\PreferenceSourceRequest;
+use App\Services\PreferenceService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PreferenceController extends Controller
 {
-    private PreferenceServiceInterface $preferenceService;
+    private PreferenceService $preferenceService;
 
     /**
-     * Service interface tanımlanıyor.
+     * Service  tanımlanıyor.
      *
-     * @param  PreferenceServiceInterface $preferenceService
+     * @param  PreferenceService $preferenceService
      * @return void
     */
-    public function __construct(PreferenceServiceInterface $preferenceService)
+    public function __construct(PreferenceService $preferenceService)
     {
         $this->preferenceService = $preferenceService;
-    }
-
-    /**
-     * Kaynakları listelemek için kullanılır.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
-    */
-    public function index(Request $request) : JsonResponse
-    {
-        return $this->okApiResponse(
-            PreferenceResource::collection($this->preferenceService->all($request))
-                ->response()
-                ->getData(true)
-        );
     }
 
     /**
@@ -45,32 +31,54 @@ class PreferenceController extends Controller
      * @param  PreferenceRequest $request
      * @return JsonResponse
     */
-    public function store(PreferenceRequest $request) : JsonResponse
+    public function store(PreferenceRequest $request, string $userId) : JsonResponse
     {
-        return $this->createdApiResponse($this->preferenceService->store($request->validated()));
+        return $this->createdApiResponse($this->preferenceService->create($userId, $request->validated()));
     }
 
     /**
-     * Kaynağı görüntülemek için kullanılır.
+     * Yeni bir kaynağı kaydetmek için kullanılır.
      *
-     * @param  string $id
+     * @param  PreferenceCategoryRequest $request
      * @return JsonResponse
     */
-    public function show(string $id) : JsonResponse
+    public function categoriesAttach(PreferenceCategoryRequest $request, string $userId) : JsonResponse
     {
-        return $this->okApiResponse(new PreferenceResource($this->preferenceService->show($id)));
+        return $this->createdApiResponse($this->preferenceService->categoriesAttach($userId, $request->validated()));
+    }
+
+    /**
+     * Yeni bir kaynağı kaydetmek için kullanılır.
+     *
+     * @param  PreferenceAuthorRequest $request
+     * @return JsonResponse
+    */
+    public function authorsAttach(PreferenceAuthorRequest $request, string $userId) : JsonResponse
+    {
+        return $this->createdApiResponse($this->preferenceService->authorsAttach($userId, $request->validated()));
+    }
+
+    /**
+     * Yeni bir kaynağı kaydetmek için kullanılır.
+     *
+     * @param  PreferenceSourceRequest $request
+     * @return JsonResponse
+    */
+    public function sourcesAttach(PreferenceSourceRequest $request, string $userId) : JsonResponse
+    {
+        return $this->createdApiResponse($this->preferenceService->sourcesAttach($userId, $request->validated()));
     }
 
     /**
      * Kaynağı güncellemek için kullanılır.
      *
      * @param  PreferenceRequest $request
-     * @param  string $id
+     * @param  string $userId
      * @return JsonResponse
     */
-    public function update(PreferenceRequest $request, string $id) : JsonResponse
+    public function update(PreferenceRequest $request, string $userId) : JsonResponse
     {
-        return $this->noContentApiResponse($this->preferenceService->update($request->validated(), $id));
+        return $this->noContentApiResponse($this->preferenceService->update($request->validated(), $userId));
     }
 
     /**
@@ -79,8 +87,8 @@ class PreferenceController extends Controller
      * @param  string $id
      * @return JsonResponse
      */
-    public function destroy(string $id) : JsonResponse
+    public function destroy(string $userId) : JsonResponse
     {
-        return $this->noContentApiResponse($this->preferenceService->destroy($id));
+        return $this->noContentApiResponse($this->preferenceService->destroy($userId));
     }
 }

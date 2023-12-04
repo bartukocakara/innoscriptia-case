@@ -42,6 +42,9 @@ interface BaseRepositoryInterface
     */
     public function findBy($key, $value) : Model|null;
 
+    public function findWithRelation(string $id, array $relations = []) : Model|null;
+
+
     public function firstOrCreate($key, $data);
 
     /**

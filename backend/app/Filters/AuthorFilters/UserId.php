@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filters\ArticleFilters;
+namespace App\Filters\AuthorFilters;
 
 use App\Filters\FilterInterface;
 
-class AuthorId implements FilterInterface
+class UserId implements FilterInterface
 {
     protected $query;
 
@@ -21,6 +21,8 @@ class AuthorId implements FilterInterface
     */
     public function handle($value): void
     {
-        $this->query->where('authorId', $value);
+        $this->query->whereHas('users', function ($query) use ($value) {
+            $query->where('user_id', $value);
+        });
     }
 }

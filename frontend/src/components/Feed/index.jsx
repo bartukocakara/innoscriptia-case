@@ -3,7 +3,7 @@ import Paginator from "./Paginator"
 import useFeedHook from "../../hooks/useFeed";
 import PaginateTypes from "./PaginateTypes";
 import Search from "./Search";
-
+import Spinner from '../Spinner'
 const Feed = ({ columns, 
                 fetchUrl,
                 filters,
@@ -11,16 +11,10 @@ const Feed = ({ columns,
                 searchPlaceholder,  
                 multiSelect = null, 
                 handleCheckboxClick = null,
-                search='title',
+                search='search',
                 searchStatus,
                 setSearchStatus,
-                favoritedDatas,
-                setFavoritedDatas,
-                favoriteAction,
                 filterPagination,
-                setRole = null,
-                t,
-                storageKey= null,
                 card,
                 handleSingleSelect= null,
                 selectedItem=null,
@@ -46,10 +40,7 @@ const Feed = ({ columns,
                     setFilters,
                     searchStatus,
                     setSearchStatus,
-                    favoritedDatas,
-                    setFavoritedDatas,
                     filterPagination,
-                    setRole,
                     listCalendar,
                     setListCalendar
             });
@@ -60,26 +51,20 @@ const Feed = ({ columns,
                 data ?  (
                 <>
                     <div className="row m-1">
-                        <Search t={t}
-                                search={search}
+                        <Search search={search}
                                 searchPlaceholder={searchPlaceholder}
                                 onInputChange={onInputChange} />
-                        <PaginateTypes t={t}
-                                    filterPagination={filterPagination}
+                        <PaginateTypes filterPagination={filterPagination}
                         />
                     </div>
                     <div className='row'>
-                        {data.length > 0 && data.map( (item, index) => (
+                        {loading.list_data ? data.map( (item, index) => (
                             React.createElement(card, { 
                                                         data:item, 
                                                         index, 
-                                                        t, 
                                                         columns,
                                                         handleCheckboxClick,
                                                         multiSelect,
-                                                        storageKey,
-                                                        favoriteAction,
-                                                        favoritedDatas,
                                                         setShowModal,
                                                         setSelectedModalData,
                                                         cardFooter,
@@ -90,17 +75,15 @@ const Feed = ({ columns,
                                                         handleSingleSelect,
                                                         selectedItem,
                                                        })
-                        ) )}
+                        ) ) : <div className="m-auto">
+                            <Spinner />
+                        </div>}
                    </div>
-                      
-                    
                     {data.length > 0 && (
                         <div className="mt-2">
-                            <Paginator
-                                t={t}
-                                pagination={pagination}
-                                pageChanged={(page) => filterPagination.setCurrentPage(page)}
-                                totalItems={data.length}
+                            <Paginator  pagination={pagination}
+                                        pageChanged={(page) => filterPagination.setCurrentPage(page)}
+                                        totalItems={data.length}
                             />
                         </div>
                     )

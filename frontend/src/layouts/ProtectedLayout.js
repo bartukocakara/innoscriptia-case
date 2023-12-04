@@ -1,6 +1,5 @@
 import { Navigate, useOutlet  } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
 import SubHeader from '../components/SubHeader'
 import Footer from '../components/Footer'

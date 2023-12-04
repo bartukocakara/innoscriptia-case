@@ -1,13 +1,13 @@
-import {LoadSettings} from '../../../services/Setting/SettingsService'
+import {LoadPreferences} from '../../../services/Preference/PreferenceService'
 
-export const loadSettingsAction = ( apiUrl, query={} ) =>{
+export const loadPreferencesAction = ( apiUrl, query={} ) =>{
     return (dispatch)=>{
         dispatch({type:'LOADING'});
-        LoadSettings(apiUrl, query).then((res)=>{
+        LoadPreferences(apiUrl, query).then((res)=>{
             if(res.hasOwnProperty('statusCode') && res.statusCode === 200){
-                dispatch({type:'LOAD_SETTINGS_SUCCESS',res});
+                dispatch({type:'LOAD_PREFERENCE_SUCCESS',res});
             }else if(res.hasOwnProperty('statusCode') && res.statusCode > 300) { 
-                dispatch({type:'LOAD_SETTINGS_ERROR',res})
+                dispatch({type:'LOAD_PREFERENCE_ERROR',res})
                 window.location.href = '/logout';
             }
         },

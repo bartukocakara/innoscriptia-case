@@ -51,6 +51,17 @@ class ArticleController extends Controller
     }
 
     /**
+     * Kaynağı görüntülemek için kullanılır.
+     *
+     * @param  string $slug
+     * @return JsonResponse
+    */
+    public function slug(string $slug) : JsonResponse
+    {
+        return $this->okApiResponse(new ArticleResource($this->articleService->slug($slug)));
+    }
+
+    /**
      * Kaynağı kaldırmak için kullanılır.
      *
      * @param  string $id

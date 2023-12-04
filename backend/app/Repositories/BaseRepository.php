@@ -70,6 +70,11 @@ class BaseRepository
         return $this->model->where($key, $value)->first();
     }
 
+    public function findWithRelation(string $id, array $relations = []) : Model|null
+    {
+        return $this->model->where('id', $id)->with($relations)->first();
+    }
+
     /**
      * Kaynağı güncellemek için kullanılır.
      *

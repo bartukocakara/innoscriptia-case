@@ -14,8 +14,6 @@ const useFeedHook = ({
     setFilters,
     searchStatus,
     setSearchStatus,
-    favoritedDatas,
-    setFavoritedDatas,
     filterPagination,
 }) => {
     const [data, setData] = useState([]);
@@ -60,11 +58,9 @@ const useFeedHook = ({
 
     useEffect(() => {
         const fetchData = async () => {
-            let sport_type_id = localStorage.getItem('sport_type_id');
-            setLoading({list_data: true});
+            setLoading({list_data: false});
             let params = {
                 ...filters,
-                sport_type_id,
                 sort_field: sortColumn,
                 sort_order: sortOrder,
                 per_page: filterPagination.perPage,
@@ -84,12 +80,6 @@ const useFeedHook = ({
                     setLoading({list_data : false});
                     setPagination(responseData.meta);
                     setSystemMessage("");
-                    if (favoritedDatas) {
-                        let ids = responseData.data.map((item) => {
-                            return item.favorite_id ? item.id : null;
-                        });
-                        setFavoritedDatas(ids);
-                    }
                 } else {
                     setLoading({list_data:false});
                 }
@@ -112,7 +102,7 @@ const useFeedHook = ({
                     console.log(error.message);
                 }
             } finally {
-                setLoading({list_data:false});
+                setLoading({list_data:true});
             }
         };
         

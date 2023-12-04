@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class PreferenceCategoryRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,9 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'category_ids' => 'array',
+            'category_ids.*' => 'uuid|exists:categories,id',
+
         ];
     }
 }

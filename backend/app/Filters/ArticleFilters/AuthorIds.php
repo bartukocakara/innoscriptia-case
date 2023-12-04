@@ -4,7 +4,7 @@ namespace App\Filters\ArticleFilters;
 
 use App\Filters\FilterInterface;
 
-class SourceId implements FilterInterface
+class AuthorIds implements FilterInterface
 {
     protected $query;
 
@@ -21,6 +21,6 @@ class SourceId implements FilterInterface
     */
     public function handle($value): void
     {
-        $this->query->where('sourceId', $value);
+        $this->query->whereIn('author_id', $value);
     }
 }
