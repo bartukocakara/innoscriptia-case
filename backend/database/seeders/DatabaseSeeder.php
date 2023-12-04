@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             AuthorSeeder::class,
             CategorySeeder::class,
             ArticleSeeder::class,
-            PreferenceSeeder::class,
+            UserCategorySeeder::class,
+            UserSourceSeeder::class,
+            UserAuthorSeeder::class,
         ]);
     }
 }

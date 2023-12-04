@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\UUID;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Preference extends Model
+class UserAuthor extends Model
 {
     use HasFactory;
 }

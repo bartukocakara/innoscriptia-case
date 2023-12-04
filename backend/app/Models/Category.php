@@ -13,4 +13,7 @@ class Category extends Model
     protected $fillable = [
         'name',
     ];
+
+    protected $hidden = ['pivot'];
+
 }

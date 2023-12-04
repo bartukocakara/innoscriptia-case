@@ -49,7 +49,7 @@ class AuthService extends CrudService
         if (!$token) {
             return [false, null];
         }
-        $user = auth()->user();
+        $user = $user->with('categories', 'authors', 'sources')->first();
         return [$token, $user];
     }
 

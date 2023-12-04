@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Http\Resources\UserResource;
-use App\Services\Interfaces\UserServiceInterface;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\UserRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
-    private UserServiceInterface $userService;
+    private UserService $userService;
 
     /**
-     * Service interface tanımlanıyor.
+     * Service  tanımlanıyor.
      *
-     * @param  UserServiceInterface $userService
+     * @param  UserService $userService
      * @return void
     */
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(UserService $userService)
     {
         $this->userService = $userService;
     }

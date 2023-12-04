@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('preferences', function (Blueprint $table) {
+        Schema::create('user_authors', function (Blueprint $table) {
             $table->foreignUuid('user_id')
                   ->nullable(true);
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->foreignUuid('source_id')
+            $table->foreignUuid('author_id')
                   ->nullable(true);
-            $table->foreign('source_id')->references('id')->on('sources');
-            $table->foreignUuid('category_id')
-                  ->nullable(true);
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('author_id')->references('id')->on('authors');
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('preferences');
+        Schema::dropIfExists('user_authors');
     }
 };

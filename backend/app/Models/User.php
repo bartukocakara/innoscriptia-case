@@ -30,6 +30,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'pivot',
         'password',
         'remember_token',
     ];
@@ -43,4 +44,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'user_categories');
+    }
+
+    public function sources()
+    {
+        return $this->belongsToMany(Source::class, 'user_sources');
+    }
+
+    public function authors()
+    {
+        return $this->belongsToMany(Author::class, 'user_authors');
+    }
 }
