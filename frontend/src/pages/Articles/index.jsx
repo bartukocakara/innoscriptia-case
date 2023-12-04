@@ -7,17 +7,15 @@ import CardFooter from '../../components/Cards/Footers/CardFooter';
 export default function Index () {
     const { searchStatus, 
             setSearchStatus, 
-            matchFilters, 
-            updateMatchFilters,
+            articleFilters, 
+            updateArticleFilters,
             pagination
         } = useContext(FilterContext);
-
-
 
     return (
         <>
             <h4 className='ml-2'>
-                match_list
+                Article List
             </h4>
             <div className="widget-content-area col-xl-12 col-lg-12 col-sm-12 layout-spacing">
                 <div className="list">
@@ -34,10 +32,10 @@ export default function Index () {
                                   'date', 
                                   ]}
                           card={ArticleCard}
-                          filters={{ ...matchFilters }}
+                          filters={{ ...articleFilters }}
                           searchStatus={searchStatus}
                           setSearchStatus={setSearchStatus}
-                          setFilters={updateMatchFilters}
+                          setFilters={updateArticleFilters}
                           searchPlaceholder="search_articles"
                           filterPagination={pagination}
                           cardFooter={CardFooter}

@@ -67,7 +67,7 @@ const ProfileModal = (props) => {
                onHide={props.handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {props.t('profile_edit')}
+                    profile_edit
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -85,7 +85,7 @@ const ProfileModal = (props) => {
                                 <div className="row mt-2">
                                     <div className="col-lg-12 col-sm-6">
                                         <div className="form-group">
-                                            <h6>{props.t('title')}</h6>
+                                            <h6>title</h6>
                                             <input
                                                 type="text"
                                                 className="form-control text-light mb-4"
@@ -213,7 +213,7 @@ const ProfileModal = (props) => {
             <Modal.Footer>
                 <Button variant="danger" 
                         onClick={props.handleClose}>
-                    {props.t('close')}
+                    close
                 </Button>
                 <Button variant="primary" 
                         onClick={handleFormSubmit}
@@ -221,7 +221,7 @@ const ProfileModal = (props) => {
                         {
                                 loading ? ( props.spinner ) : (
                                     <>
-                                        {props.t('save')}
+                                        save
                                     </>
                                 )
                         }

@@ -18,21 +18,13 @@ const ArticleCard = (props) => {
                         <div className="progress-order">
                             <div className="progress-order-header">
                                 <div className="row border">
-                                    <div className="col-lg-3 col-md-6 col-sm-6 text-center m-auto p-3">
-                                        <h6> {props.data.city} / {props.data.district}  
-                                            <br/>
-                                            <br/>
-                                            {props.data.court}
-                                        </h6>
-                                    </div>
-                                    <div className="col-lg-3 col-md-6 col-sm-6 text-center m-auto p-3">
-                                        <h6>{props.data.date.expiring_date}</h6>
-                                        <h6>{props.data.time.begin_time} - {props.data.time.end_time} </h6>
-                                    </div>
-                                    <div className="col-lg-2 col-md-6 col-sm-6 text-center m-auto p-3">
+                                    <div className="col-lg-12 col-md-12 col-sm-6 text-center m-auto p-3">
                                         <h6>
-                                            {props.data.price}
+                                            {props.data.description}
                                         </h6>
+                                    </div>
+                                    <div className="col-lg-3 col-md-6 col-sm-6 text-center m-auto p-3">
+                                        <h6>{props.data.published_at}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -48,14 +40,12 @@ const ArticleCard = (props) => {
                                 </div>
                             </div>
                             { props.cardFooter({
-                                                t: props.t,
                                                 prefix : props.prefix, 
                                                 data : props.data,
                                                 setShowModal : props.setShowModal,
                                                 setSelectedModalData: props.setSelectedModalData,
                                                 loading: props.loading,
                                                 handleAction: props.handleAction,
-                                                handleSendRequest: props.handleSendRequest
                                             }) }
                     </div>
                 </div>

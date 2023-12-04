@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar'
 import SubHeader from '../components/SubHeader'
 import Footer from '../components/Footer'
 import SpinnerText from '../components/SpinnerText'
+import { FilterProvider } from "../context/FilterContext";
 
 const ProtectedLayout = () => {
     const token = JSON.parse(localStorage.getItem('token'))
@@ -28,7 +29,7 @@ const ProtectedLayout = () => {
             <Navbar />
             <SubHeader />
             <div className="main-container" id="container">
-                <Sidebar />
+                <FilterProvider>
                     <div id="content" className="main-content">
                         <div className="layout-px-spacing">
                             <div className="row layout-spacing layout-top-spacing">
@@ -37,6 +38,7 @@ const ProtectedLayout = () => {
                             </div>
                         </div>
                     </div>
+                </FilterProvider>
             </div>
         </>
     )

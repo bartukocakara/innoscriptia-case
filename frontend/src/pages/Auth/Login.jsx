@@ -32,7 +32,6 @@ const Login = () => {
         const credentials = { 
                 email: formDatas.email, 
                 password: formDatas.password,
-                role_id : 1
         };
         const data = await LoginUser(credentials, navigate);
         setTimeout(() => {

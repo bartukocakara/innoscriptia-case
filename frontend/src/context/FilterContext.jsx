@@ -2,9 +2,9 @@ import React, { createContext, useMemo, useState } from 'react';
 
 export const FilterContext = createContext({
     filters: {},
-    matchFilters: {},
+    articleFilters: {},
     searchStatus: {},
-    updateMatchFilters: () => {},
+    updateArticleFilters: () => {},
 });
 
 export const FilterProvider = ({ children }) => {

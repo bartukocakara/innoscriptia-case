@@ -6,7 +6,7 @@ const Search = (props) => {
             <input
                 type="text" className="form-control product-search" 
                 id={props.search}
-                placeholder={props.t(props.searchPlaceholder)}
+                placeholder={props.searchPlaceholder}
                 onChange={(e) => props.onInputChange(e)}
             />
         </div>

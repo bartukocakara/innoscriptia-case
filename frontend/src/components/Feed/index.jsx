@@ -27,18 +27,18 @@ const Feed = ({ columns,
                 setSelectedModalData,
                 setShowModal,
                 cardFooter,
-                loading,
-                setLoading,
                 handleAction,
                 handleSendRequest,
                 listCalendar = false,
                 setListCalendar
         }) => {
-            const {
-                data,
-                pagination,
-                systemMessage,
-                onInputChange,
+    const {
+            loading,
+            setLoading,
+            data,
+            pagination,
+            systemMessage,
+            onInputChange,
             } = useFeedHook({
                     columns,
                     fetchUrl,
@@ -50,7 +50,6 @@ const Feed = ({ columns,
                     setFavoritedDatas,
                     filterPagination,
                     setRole,
-                    setLoading,
                     listCalendar,
                     setListCalendar
             });
@@ -110,12 +109,12 @@ const Feed = ({ columns,
                 ) : 
                 (
                     <>
-                        <h6>{t('no_items_found')}</h6>
+                        <h6>No data found</h6>
                         <p className="text-danger">{systemMessage}</p>
                         <button className="btn btn-primary" 
                                 onClick={() => {window.location.reload()}}
                                 > 
-                                {t('retry')} 
+                                Retry 
                         </button>
                     </>
                 )
