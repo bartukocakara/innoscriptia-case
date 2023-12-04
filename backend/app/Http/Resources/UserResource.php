@@ -18,10 +18,11 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
-            'sources' => SourceResource::collection($this->whenLoaded('sources')),
-            'authors' => AuthorResource::collection($this->whenLoaded('authors')),
-
+            'preferences' => [
+                'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+                'sources' => SourceResource::collection($this->whenLoaded('sources')),
+                'authors' => AuthorResource::collection($this->whenLoaded('authors')),
+            ]
         ];
     }
 }

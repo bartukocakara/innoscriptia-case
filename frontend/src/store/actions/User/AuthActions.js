@@ -12,6 +12,7 @@ export const SignUpAction = (credentials, navigate) => {
                 let user = res.result.user
                 localStorage.setItem('token', JSON.stringify(token))
                 localStorage.setItem('user', JSON.stringify(user))
+                localStorage.setItem('user_preferences', JSON.stringify(user?.preferences))
                 // const decoded = jwt_decode(token);
                 dispatch({type:'SIGNUP_SUCCESS', res});
                 setTimeout(() => {
