@@ -17,29 +17,36 @@ const PreferencesModal = (props) => {
     const data = useSelector((state) => state.preferences.preferences);
 
     useEffect(() => {
+        let uPreferences = localStorage.getItem('preferences')
+        if(uPreferences) {
+            setUserPreferences(JSON.parse(uPreferences))
+        }
+    }, [])
+    
+    useEffect(() => {
         setPreferences((prevState) => ({
             ...prevState,
-            [preferenceType]: data.result?.data
-        }))
-    }, [data])
+            [preferenceType]: data.result?.data.map((item) => ({
+                ...item,
+                checked: userPreferences[preferenceType]?.some((userItem) => userItem.id === item.id) || false,
+            })),
+        }));
+    }, [data, userPreferences, preferenceType]);
 
-    useEffect(() => {
-        // Update preferences with checked property
+    useEffect(() => {   
         const updatedPreferences = {};
         Object.keys(userPreferences).forEach((type) => {
-
             updatedPreferences[type] = preferences[type]?.map((prefItem) => {
-                const userPrefItem = userPreferences[type].find((userItem) => userItem.id === prefItem.id );
+                const userPrefItem = userPreferences[type].find((userItem) => userItem.id === prefItem.id);
                 return {
                     ...prefItem,
-                    checked: userPrefItem ? true : false,
+                    checked: userPrefItem ? userPrefItem.checked : false,
                 };
             }) || [];
         });
-        console.log(updatedPreferences);
         setPreferences(updatedPreferences);
         setLoading(false);
-    }, []);
+    }, [userPreferences]);
 
     useEffect(() => {
         setLoading(true)
@@ -50,16 +57,26 @@ const PreferencesModal = (props) => {
     }, [])
     
     
-    const handleSubmit = ({e}) => {
+    const handleSubmit = () => {
         setLoading(true)
-        e.preventDefault();
         setButtonDisabled(true)
-        const preferenceFields = preferences[preferenceType].map((data) => (data.id));
-        const preferences = { [preferenceKey]: preferenceFields };
+        const preferenceFields = preferences[preferenceType]
+                                .filter((data) => data.checked)
+        const preferenceFieldsMap = preferenceFields.map((data) => data.id);
+        const preferencesData = { [preferenceKey]: preferenceFieldsMap };
+        const updatedPreferences = {
+            ...userPreferences,
+            [preferenceType]: preferenceFields.map((data) => ({
+                id : data.id,
+                name : data.name
+            }))
+        };
         try {
-            dispatch(createDataAction(`users/${id}/preferences/${preferenceType}`, preferences));
+            dispatch(createDataAction(`users/${id}/preferences/${preferenceType}`, preferencesData));
             setTimeout(() => {
                 setButtonDisabled(false)
+                setLoading(false)
+                localStorage.setItem('preferences', JSON.stringify(updatedPreferences))
             }, 1500);
         } catch (error) {
             console.log(error)
@@ -77,24 +94,20 @@ const PreferencesModal = (props) => {
     }
 
     const handleChange = (e) => {
-        const {id, checked } = e.target;
-        const updatePreferences = preferences[preferenceType].map((preference) => {
-            if (preference.id.toString() === id) {
-                return { ...preference, checked };
-            }
-            return preference;
-        });
-        setPreferences({
-            ...preferences,
-            [preferenceType] : updatePreferences
+        const { id, checked } = e.target;
+        setPreferences((prevPreferences) => {
+            return {
+                ...prevPreferences,
+                [preferenceType]: prevPreferences[preferenceType].map((preference) =>
+                    preference.id.toString() === id ? { ...preference, checked } : preference
+                ),
+            };
         });
     };
 
-    console.log(preferences);
-
     return (
         <Modal show={props.show} 
-               onHide={props.handleClose}>
+               onHide={props.onHide}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     Preferences
@@ -142,9 +155,6 @@ const PreferencesModal = (props) => {
                 <Button variant="danger" 
                         onClick={props.onHide}>
                     Close
-                </Button>
-                <Button variant="primary">
-                    Save
                 </Button>
             </Modal.Footer>
         </Modal>

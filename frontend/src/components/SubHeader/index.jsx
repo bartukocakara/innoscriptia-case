@@ -4,9 +4,12 @@ const Index = () => {
     const [ showModal, setShowModal ] = useState({});
     return (
         <div className="sub-header-container mt-5">
-            <PreferencesModal show={showModal.preferences}
-                              onHide={() => setShowModal({})}
-                            />
+            {
+                showModal.preferences &&  <PreferencesModal show={showModal.preferences}
+                                                            onHide={() => setShowModal({})}
+                                        />
+            }
+           
             <header className="header navbar navbar-expand-sm">
                     <ul className="navbar-nav flex-row ml-auto">
                         <li className="nav-item"

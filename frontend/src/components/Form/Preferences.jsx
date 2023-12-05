@@ -28,7 +28,7 @@ const Preferences = ({loading,
                                             className="form-control custom-checkbox"
                                             type="checkbox"
                                             checked={item.checked}
-                                            value={item.value}
+                                            value={item.checked}
                                             id={item.id}
                                             onChange={(e) => handleChange(e)}
                                         />
@@ -37,7 +37,7 @@ const Preferences = ({loading,
                                     );
                                 })}
                                 </div>
-                            <button className='btn btn-success' 
+                            <button className='btn btn-success btn-lg float-right' 
                                     type="submit" 
                                     onClick={handleSubmit}
                                     disabled={buttonDisabled}
