@@ -19,18 +19,7 @@ export default function Index () {
             </h4>
             <div className="widget-content-area col-xl-12 col-lg-12 col-sm-12 layout-spacing">
                 <div className="list">
-                    <Feed fetchUrl="/articles"
-                          columns={[ 
-                                  'title',
-                                  'items',
-                                  'gender',
-                                  'court', 
-                                  'price', 
-                                  'city',
-                                  'status', 
-                                  'time',
-                                  'date', 
-                                  ]}
+                    <Feed fetchUrl='/articles'
                           card={ArticleCard}
                           filters={{ ...articleFilters }}
                           searchStatus={searchStatus}
@@ -39,7 +28,6 @@ export default function Index () {
                           searchPlaceholder="search_articles"
                           filterPagination={pagination}
                           cardFooter={CardFooter}
-                          listCalendar={true}
                           handleAction={ [
                             ]}
                     />

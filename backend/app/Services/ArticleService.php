@@ -23,6 +23,7 @@ class ArticleService extends CrudService
 
     public function slug(string $slug): Model
     {
-        return $this->articleRepository->findBy('slug', $slug);
+        $article =  $this->articleRepository->findBy('slug', $slug);
+        return $article->with('author', 'category', 'source')->first();
     }
 }

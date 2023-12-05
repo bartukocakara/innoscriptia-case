@@ -4,8 +4,7 @@ import useFeedHook from "../../hooks/useFeed";
 import PaginateTypes from "./PaginateTypes";
 import Search from "./Search";
 import Spinner from '../Spinner'
-const Feed = ({ columns, 
-                fetchUrl,
+const Feed = ({ fetchUrl,
                 filters,
                 setFilters,
                 searchPlaceholder,  
@@ -34,7 +33,6 @@ const Feed = ({ columns,
             systemMessage,
             onInputChange,
             } = useFeedHook({
-                    columns,
                     fetchUrl,
                     filters,
                     setFilters,
@@ -62,7 +60,6 @@ const Feed = ({ columns,
                             React.createElement(card, { 
                                                         data:item, 
                                                         index, 
-                                                        columns,
                                                         handleCheckboxClick,
                                                         multiSelect,
                                                         setShowModal,

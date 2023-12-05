@@ -8,7 +8,6 @@ const SORT_ASC = "asc";
 const SORT_DESC = "desc";
 
 const useFeedHook = ({
-    columns,
     fetchUrl,
     filters,
     setFilters,
@@ -17,7 +16,7 @@ const useFeedHook = ({
     filterPagination,
 }) => {
     const [data, setData] = useState([]);
-    const [sortColumn, setSortColumn] = useState(columns[0]);
+    const [sortColumn, setSortColumn] = useState('title');
     const [sortOrder, setSortOrder] = useState("asc");
     const [pagination, setPagination] = useState({});
     const [systemMessage, setSystemMessage] = useState("");

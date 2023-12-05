@@ -27,4 +27,19 @@ class Article extends Model
     {
         return  (new FilterBuilder($query, $filters, 'ArticleFilters'))->apply();
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function source()
+    {
+        return $this->belongsTo(Source::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
 }
