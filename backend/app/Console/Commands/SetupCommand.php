@@ -22,5 +22,8 @@ class SetupCommand extends Command
         Artisan::call('api:media-stack');
         Artisan::call('api:guardian');
         Artisan::call('api:newyork-times');
+
+        return Command::SUCCESS;
+
     }
 }

@@ -23,7 +23,7 @@ const Profile = () => {
     }, [dispatch, navigate, id])
 
     useEffect(() => {
-        if (data && data.result) {
+        if (data?.result) {
             setDatas(data.result)
         }
     }, [data])
@@ -31,7 +31,7 @@ const Profile = () => {
     const handleClick = (modalName) => {
         setShowModal(modalName);
     };
-    console.log(datas);
+
     return (
         <div className="row layout-spacing">
             {

@@ -2,11 +2,11 @@ import React from 'react'
 import Spinner from '../SpinnerText' 
 
 const Preferences = ({loading, 
-                   colSize = 3,
-                   buttonDisabled, 
-                   handleChange,
-                   data, 
-                   handleSubmit }) => {
+                        colSize = 3,
+                        buttonDisabled, 
+                        handleChange,
+                        data, 
+                        handleSubmit }) => {
     return (
         <div>
             {
@@ -16,8 +16,8 @@ const Preferences = ({loading,
                     <div className="widget-content widget-content-area">
                             <div className="row">
                             { data.map((item, i) => {
-                                    return (
-                                    <div key={i} className={`col-lg-${colSize} col-sm-12`}>
+                                return (
+                                    <div key={i} className={`col-${colSize}`}>
                                         <div className="form-group d-flex border border-radius p-2 text-center" 
                                              style={{borderRadius:"10px"}}
                                              >
@@ -27,7 +27,7 @@ const Preferences = ({loading,
                                         <input
                                             className="form-control custom-checkbox"
                                             type="checkbox"
-                                            checked={item.value}
+                                            checked={item.checked}
                                             value={item.value}
                                             id={item.id}
                                             onChange={(e) => handleChange(e)}

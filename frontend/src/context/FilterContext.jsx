@@ -17,12 +17,10 @@ export const FilterProvider = ({ children }) => {
         search: true,
     });
 
-    console.log(preferences);
-
     const [articleFilters, setArticleFilters] = useState({
-        // 'category_ids[]' : preferences.categories.map((item) => [item.id]),
-        // 'author_ids[]' : preferences.authors.map((item) => [item.id]),
-        // 'source_ids[]' : preferences.sources.map((item) => [item.id]),
+        'category_ids[]' : preferences.categories.map((item) => [item.id]),
+        'author_ids[]' : preferences.authors.map((item) => [item.id]),
+        'source_ids[]' : preferences.sources.map((item) => [item.id]),
     });
 
 
