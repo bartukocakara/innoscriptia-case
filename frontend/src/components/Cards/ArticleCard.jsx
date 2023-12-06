@@ -45,7 +45,6 @@ const ArticleCard = (props) => {
                                                 setShowModal : props.setShowModal,
                                                 setSelectedModalData: props.setSelectedModalData,
                                                 loading: props.loading,
-                                                handleAction: props.handleAction,
                                             }) }
                     </div>
                 </div>

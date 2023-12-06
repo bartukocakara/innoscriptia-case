@@ -29,8 +29,8 @@ export const LoginUser = async (credentials, navigate) => {
     try {
         const response = await http.postData(credentials, loginUrl);
         if (response?.statusCode === 200) {
-            var token = response.result.access_token
-            var user = response.result.user
+            let token = response.result.access_token
+            let user = response.result.user
             localStorage.setItem('token', JSON.stringify(token))
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('preferences', JSON.stringify(user.preferences))

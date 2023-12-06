@@ -28,8 +28,6 @@ export default function Index () {
                           searchPlaceholder="search_articles"
                           filterPagination={pagination}
                           cardFooter={CardFooter}
-                          handleAction={ [
-                            ]}
                     />
                 </div>
             </div>

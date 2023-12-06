@@ -32,6 +32,17 @@ class PreferenceService extends CrudService
         return true;
     }
 
+    public function delete(array $params, string $userId): bool
+    {
+        $user = $this->userRepository->find($userId);
+
+        $user->sources()->detach($params['source_ids']);
+        $user->categories()->detach($params['category_ids']);
+        $user->authors()->detach($params['author_ids']);
+
+        return true;
+    }
+
     public function categoriesAttach(string $userId, array $params): bool
     {
         $user = $this->userRepository->findWithRelation($userId, ['categories']);

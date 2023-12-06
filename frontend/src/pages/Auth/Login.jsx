@@ -46,7 +46,6 @@ const Login = () => {
                   });
             }
         }
-        return
     };
 
     const togglePasswordVisibility = () => {
@@ -58,23 +57,25 @@ const Login = () => {
             {
                 loading ? (
                     <div style={{ margin:'30% 20%' }}>
-                        <h6>redirecting_to_articles_page</h6>
+                        <h6>Redirecting to articles page</h6>
                         <Spinner />
                     </div>
                 ) : (
                 <div className='mx-5'>
                     <h1 className='mb-4'>
-                        login 
+                        Login 
                         <Link to='/login'>
                             <span className='brand-name ml-2'>
                                 Innoscripta
                             </span>
                         </Link>
                     </h1>
-                    <form className='text-left' onSubmit={handleSubmit} autoComplete='off'>
+                    <form className='text-left' 
+                          onSubmit={handleSubmit} 
+                          autoComplete='off'>
                         <div className='form'>
                             <div className='form-group'>
-                                <h6>email :</h6>
+                                <h6>Email :</h6>
                                 <input
                                     className='form-control'
                                     placeholder='john@example.com'
@@ -92,7 +93,7 @@ const Login = () => {
                                 ))
                             }
                             <div className='form-group'>
-                                <h6>password :</h6>
+                                <h6>Password :</h6>
                                 <input
                                     type={passwordVisible ? 'text' : 'password'}
                                     className='form-control form-control-merge'
@@ -112,39 +113,37 @@ const Login = () => {
                             <div className='d-flex justify-content-between'>
                                 <div className='field-wrapper d-flex'>
                                     <p className='d-flex'>
-                                        show_password
-                                        <input
-                                            type='checkbox'
-                                            className='new-control new-checkbox'
-                                            id='toggle-password'
-                                            style={{ scale: '35%'  }}
-                                            onClick={togglePasswordVisibility}
-                                            />
+                                        Show password
+                                        <input type='checkbox'
+                                               className='new-control new-checkbox'
+                                               id='toggle-password'
+                                               style={{ scale: '35%'  }}
+                                               onClick={togglePasswordVisibility}
+                                        />
                                     </p>
-                                    
                                 </div>
                                 <button type='submit' 
                                         className='btn btn-primary' 
                                         disabled={!Object.values(formDatas).every(value => Boolean(value))}
                                         >
-                                          login
-                                        
+                                          Login
                                 </button>
-
                             </div>
                             <div className='field-wrapper'>
                                 <Link to='/forgot-password' 
                                       className='forgot-pass-link'
                                       >
-                                    forgot_password
+                                    Forgot password
                                 </Link>
                             </div>
                             <div className='mt-4'>
-                                <span className='mt-4 text-light'>you_dont_have_a_membership ?</span>
+                                <span className='mt-4 text-light'>
+                                    You don't have membership ?
+                                </span>
                                 <Link to='/register' 
                                       className='btn btn-primary ml-2'
                                       >
-                                        register
+                                        Register
                                 </Link>
                             </div> 
                         </div>

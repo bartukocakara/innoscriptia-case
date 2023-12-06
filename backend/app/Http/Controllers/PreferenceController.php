@@ -87,8 +87,8 @@ class PreferenceController extends Controller
      * @param  string $id
      * @return JsonResponse
      */
-    public function destroy(string $userId) : JsonResponse
+    public function destroy(PreferenceRequest $request, string $userId) : JsonResponse
     {
-        return $this->noContentApiResponse($this->preferenceService->destroy($userId));
+        return $this->noContentApiResponse($this->preferenceService->delete( $request->validated(), $userId));
     }
 }

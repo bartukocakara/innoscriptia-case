@@ -11,17 +11,6 @@ const CardFooter = (props) => {
                         <BiDetail /> 
                     </h6>
                 </Link>
-                {
-                    props.handleAction.map((item, index) => (
-                        <button key={index} className={`btn ${item.color ? 'btn-'+item.color : 'btn-dark'} mx-2`}
-                                onClick={() => item.method(props.data)}
-                            >
-                            <h6> 
-                                {item.icon}
-                            </h6>
-                        </button>
-                    ))
-                }
             </div>
         </div>
     )

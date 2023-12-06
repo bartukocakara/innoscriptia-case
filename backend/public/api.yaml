@@ -133,42 +133,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ValidationError'
   /articles/{articleId}:
-    get:
-      tags:
-        - Articles
-      summary: Article Show
-      description: For showing article.
-      operationId: 5309957440e357185a94c9a140e4bbc8
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: ArticleId
-          in: path
-          description: Article Id
-          required: true
-          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
-      responses:
-        '200':
-          description: Show success response
-          content:
-            application/json:
-              schema:
-                properties:
-                  message:
-                    type: string
-                    example: OK
-                  statusCode:
-                    type: integer
-                    example: '200'
-                  status:
-                    type: string
-                    example: success
-                  result:
-                    type: object
-                    example: []
-                type: object
-        '500':
-          description: No data found
     put:
       tags:
         - Articles
@@ -246,6 +210,43 @@ paths:
           description: Delete success response
         '500':
           description: No data found
+  /articles/{articleSlug}:
+    get:
+      tags:
+        - Articles
+      summary: Article Show
+      description: For showing article.
+      operationId: 5309957440e357185a94c9a140e4bbc8
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: articleSlug
+          in: path
+          description: Article slug
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+      responses:
+        '200':
+          description: Show success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '500':
+          description: No data found
 
   # Authantication
   /auth/login:
@@ -285,18 +286,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
-
-  /profile:
-    get:
+  /auth/register:
+    post:
       tags:
         - Authentication
-      summary: Show profil info
-      description: For showing user profile.
-      operationId: e92c58f994e8be6e19813ce20425f83e
-      security:
-        - bearerAuth: []
+      summary: Entry system
+      description: Register with new credentials.
+      operationId: authRegigster
+      parameters:
+        - name: name
+          in: query
+          description: Username
+          required: true
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: Email
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: Password
+          required: true
+          schema:
+            type: string
+        - name: confirm
+          in: query
+          description: Confirm
+          required: true
+          schema:
+            type: string
       responses:
-        '200':
+        '201':
           description: Successful Response
           content:
             application/json:
@@ -307,15 +330,11 @@ paths:
                     example: Successful
                 type: object
         '422':
-          description: Wrong credentials Response
+          description: Input error
           content:
             application/json:
               schema:
-                properties:
-                  message:
-                    type: string
-                    example: 'Sorry, wrong email address or password. Please try again'
-                type: object
+                $ref: '#/components/schemas/ValidationError'
 
   # USERS
   /users:
@@ -352,15 +371,9 @@ paths:
           required: false
           example: '1'
 
-        - name: first_name
+        - name: name
           in: query
           description: First name.
-          required: false
-          example: 'ABC'
-
-        - name: last_name
-          in: query
-          description: Last name.
           required: false
           example: 'ABC'
 
@@ -428,7 +441,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
-  '/users/{userId}':
+  /users/{id}:
     get:
       tags:
         - Users
@@ -438,7 +451,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: userId
+        - name: id
           in: path
           description: User Id
           required: true
@@ -529,6 +542,483 @@ paths:
         '500':
           description: No data found
 
+  # USER PREFERENCES
+  /users/{userId}/preferences:
+    post:
+      tags:
+        - User Preferences
+      summary: Create User Categories Authors Sources Preferences
+      description: For creating user categories author sources peferences.
+      operationId: a1fce870c566eb5fc0cf3178ec5d2fed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          description: User id
+          required: false
+          example: '0011db70-a035-470d-a197-bf70ab0d139c'
+        - name: author_ids[]
+          in: query
+          description: Author IDs
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: category_ids[]
+          in: query
+          description: Category IDs
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: source_ids[]
+          in: query
+          description: Source IDs
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+
+      responses:
+        '201':
+          description: Create success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /users/{userId}/preferences/categories:
+    post:
+      tags:
+        - User Preferences
+      summary: Create User Category Preferences
+      description: For creating user category peferences.
+      operationId: a1fce870c566eb5fc0cf3178ec5d2fed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: query
+          description: User id
+          required: false
+          example: '0011db70-a035-470d-a197-bf70ab0d139c'
+        - name: category_ids[]
+          in: query
+          description: Category IDs
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+
+      responses:
+        '201':
+          description: Create success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+  /users/{userId}/preferences/sources:
+    post:
+      tags:
+        - User Preferences
+      summary: Create User Source Preferences
+      description: For creating user source peferences.
+      operationId: a1fce870c566eb5fc0cf3178ec5d2fed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: query
+          description: User id
+          required: false
+          example: '0011db70-a035-470d-a197-bf70ab0d139c'
+        - name: source_ids[]
+          in: query
+          description: Source IDs
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+
+      responses:
+        '201':
+          description: Create success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+  /users/{userId}/preferences/authors:
+    post:
+      tags:
+        - User Preferences
+      summary: Create User Author Preferences
+      description: For creating user author peferences.
+      operationId: a1fce870c566eb5fc0cf3178ec5d2fed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: query
+          description: User id
+          required: false
+          example: '0011db70-a035-470d-a197-bf70ab0d139c'
+        - name: author_ids[]
+          in: query
+          description: Author IDs
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+
+      responses:
+        '201':
+          description: Create success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '422':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  # SOURCES
+  /sources:
+    get:
+      tags:
+        - Sources
+      summary: Source List
+      description: For listing sources.
+      operationId: 7e2f5799553ec93c9c43e2a58490d447
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sort_field
+          in: query
+          description: Used to specify the field for sorting.
+          required: true
+          example: id
+
+        - name: sort_order
+          in: query
+          description: Used to specify the sorting order.
+          required: true
+          example: asc
+
+        - name: per_page
+          in: query
+          description: Used to determine the number of data per page.
+          required: true
+          example: '10'
+
+        - name: page
+          in: query
+          description: Used to determine the page number.
+          required: false
+          example: '1'
+
+        - name: name
+          in: query
+          description: Name.
+          required: false
+          example: 'ABC'
+
+      responses:
+        '200':
+          description: Başarılı cevap
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceList'
+  /sources/{id}:
+    get:
+      tags:
+        - Sources
+      summary: Show source
+      description: For showing source.
+      operationId: cef8a64dad4500c2b80708ac3f63c2b2
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Source Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+      responses:
+        '200':
+          description: Show success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '500':
+          description: No data found
+
+  # AUTHORS
+  /authors:
+    get:
+      tags:
+        - Authors
+      summary: Author List
+      description: For listing author.
+      operationId: 7e2f5799553ec93c9c43e2a58490d447
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sort_field
+          in: query
+          description: Used to specify the field for sorting.
+          required: true
+          example: id
+
+        - name: sort_order
+          in: query
+          description: Used to specify the sorting order.
+          required: true
+          example: asc
+
+        - name: per_page
+          in: query
+          description: Used to determine the number of data per page.
+          required: true
+          example: '10'
+
+        - name: page
+          in: query
+          description: Used to determine the page number.
+          required: false
+          example: '1'
+
+        - name: name
+          in: query
+          description: Name.
+          required: false
+          example: 'ABC'
+
+      responses:
+        '200':
+          description: Başarılı cevap
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorList'
+  /author/{id}:
+    get:
+      tags:
+        - Authors
+      summary: Show author
+      description: For showing author.
+      operationId: cef8a64dad4500c2b80708ac3f63c2b2
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Author Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+      responses:
+        '200':
+          description: Show success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '500':
+          description: No data found
+
+  # CATEGORIES
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: Category List
+      description: For listing categories.
+      operationId: 7e2f5799553ec93c9c43e2a58490d447
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sort_field
+          in: query
+          description: Used to specify the field for sorting.
+          required: true
+          example: id
+
+        - name: sort_order
+          in: query
+          description: Used to specify the sorting order.
+          required: true
+          example: asc
+
+        - name: per_page
+          in: query
+          description: Used to determine the number of data per page.
+          required: true
+          example: '10'
+
+        - name: page
+          in: query
+          description: Used to determine the page number.
+          required: false
+          example: '1'
+
+        - name: name
+          in: query
+          description: Name.
+          required: false
+          example: 'ABC'
+
+      responses:
+        '200':
+          description: Başarılı cevap
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryList'
+  /categories/{id}:
+    get:
+      tags:
+        - Categories
+      summary: Show categories
+      description: For showing categories.
+      operationId: cef8a64dad4500c2b80708ac3f63c2b2
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Category Id
+          required: true
+          example: 0fb7f1e7-a338-4d43-a677-ac1a9784ae12
+      responses:
+        '200':
+          description: Show success response
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: OK
+                  statusCode:
+                    type: integer
+                    example: '200'
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    example: []
+                type: object
+        '500':
+          description: No data found
+
 components:
   schemas:
     ArticleList:
@@ -606,6 +1096,88 @@ components:
                   accounting_code:
                     type: string
                     description: Kişisel kodu
+    AuthorList:
+      type: object
+      properties:
+        message:
+          type: string
+          example: OK
+        statusCode:
+          type: integer
+          format: int64
+          example: 200
+        status:
+          type: string
+          example: success
+        result:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Author id
+                  name:
+                    type: string
+                    description: Name
+    CategoryList:
+      type: object
+      properties:
+        message:
+          type: string
+          example: OK
+        statusCode:
+          type: integer
+          format: int64
+          example: 200
+        status:
+          type: string
+          example: success
+        result:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Category id
+                  name:
+                    type: string
+                    description: Name
+    SourceList:
+      type: object
+      properties:
+        message:
+          type: string
+          example: OK
+        statusCode:
+          type: integer
+          format: int64
+          example: 200
+        status:
+          type: string
+          example: success
+        result:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Source id
+                  name:
+                    type: string
+                    description: Name
+
     StatusOk:
       type: object
       properties:

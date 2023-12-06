@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('users/{userId}/preferences/categories', [PreferenceController::class, 'categoriesAttach']);
     Route::post('users/{userId}/preferences/authors', [PreferenceController::class, 'authorsAttach']);
     Route::post('users/{userId}/preferences/sources', [PreferenceController::class, 'sourcesAttach']);
-    Route::apiResource('categories', CategoryController::class)->only('index');
+    Route::apiResource('categories', CategoryController::class)->only('index', 'show');
     Route::apiResource('sources', SourceController::class)->only('index', 'show');
     Route::apiResource('authors', AuthorController::class)->only('index', 'show');
 });
