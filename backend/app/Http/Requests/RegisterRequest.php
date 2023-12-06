@@ -3,12 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class RegisterRequest
  */
-class RegisterRequest extends FormRequest
+class RegisterRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -19,7 +18,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:100',
-            'email' => 'required|email|unique:users,email|min:9',
+            'email' => 'required|string|unique:users,email|email:rfc,dns',
             'password' => 'required|string|confirmed|min:6',
         ];
     }

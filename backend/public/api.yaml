@@ -257,7 +257,7 @@ paths:
       description: Login with credentials to get authorized.
       operationId: authLogin
       parameters:
-        - name: username
+        - name: name
           in: query
           description: Username
           required: true
@@ -292,7 +292,7 @@ paths:
         - Authentication
       summary: Entry system
       description: Register with new credentials.
-      operationId: authRegigster
+      operationId: authRegister
       parameters:
         - name: name
           in: query
@@ -312,7 +312,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: confirm
+        - name: password_confirmation
           in: query
           description: Confirm
           required: true

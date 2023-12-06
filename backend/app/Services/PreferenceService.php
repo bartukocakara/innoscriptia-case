@@ -36,9 +36,9 @@ class PreferenceService extends CrudService
     {
         $user = $this->userRepository->find($userId);
 
-        $user->sources()->detach($params['source_ids']);
-        $user->categories()->detach($params['category_ids']);
-        $user->authors()->detach($params['author_ids']);
+        $user->sources()->detach($params['source_ids'] ?? []);
+        $user->categories()->detach($params['category_ids'] ?? []);
+        $user->authors()->detach($params['author_ids'] ?? []);
 
         return true;
     }

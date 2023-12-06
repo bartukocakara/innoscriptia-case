@@ -1,0 +1,1108 @@
+{
+	"info": {
+		"_postman_id": "d9e43ba0-a041-4a66-93fd-09aa71ce9e8d",
+		"name": "Innoscripta",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24282289"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/auth/register?name=Bartu Kocakara&email=kocakarabartu@gmail.com&password=123456&password_confirmation=123456",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"auth",
+								"register"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Bartu Kocakara"
+								},
+								{
+									"key": "email",
+									"value": "kocakarabartu@gmail.com"
+								},
+								{
+									"key": "password",
+									"value": "123456"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"TOKEN\", jsonData.result.access_token);\r",
+									"pm.environment.set(\"myId\", jsonData.result.user.id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/atom+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/auth/login?email=kocakarabartu@gmail.com&password=password",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "kocakarabartu@gmail.com"
+								},
+								{
+									"key": "password",
+									"value": "password"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonData.data.token);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/logout",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Article",
+			"item": [
+				{
+					"name": "Articles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.environment.set(\"articleSlug\", jsonData.result.data[0].slug);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/articles",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "author_ids[]",
+									"value": "{{authorId0}}",
+									"disabled": true
+								},
+								{
+									"key": "author_ids[]",
+									"value": "{{authorId1}}",
+									"disabled": true
+								},
+								{
+									"key": "source_ids[]",
+									"value": "{{sourceId0}}",
+									"disabled": true
+								},
+								{
+									"key": "source_ids[]",
+									"value": "{{sourceId1}}",
+									"disabled": true
+								},
+								{
+									"key": "category_ids[]",
+									"value": "{{categoryId0}}",
+									"disabled": true
+								},
+								{
+									"key": "category_ids[]",
+									"value": "{{categoryId1}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Article Detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/articles/{{articleSlug}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"articles",
+								"{{articleSlug}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Preferences",
+			"item": [
+				{
+					"name": "Sources",
+					"item": [
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.environment.set(\"sourceId0\", jsonData.result.data[0].id);\r",
+											"    pm.environment.set(\"sourceId1\", jsonData.result.data[1].id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/{{PREFIX}}/sources?user_id={{myId}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"{{PREFIX}}",
+										"sources"
+									],
+									"query": [
+										{
+											"key": "user_id",
+											"value": "{{myId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attach User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.environment.set(\"articleSlug\", jsonData.result.data[0].slug);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/{{PREFIX}}/users/{{myId}}/preferences/sources?source_ids[]={{sourceId0}}&source_ids[]={{sourceId1}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"{{PREFIX}}",
+										"users",
+										"{{myId}}",
+										"preferences",
+										"sources"
+									],
+									"query": [
+										{
+											"key": "source_ids[]",
+											"value": "{{sourceId0}}"
+										},
+										{
+											"key": "source_ids[]",
+											"value": "{{sourceId1}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Authors",
+					"item": [
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.environment.set(\"authorId0\", jsonData.result.data[0].id);\r",
+											"    pm.environment.set(\"authorId1\", jsonData.result.data[1].id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/{{PREFIX}}/authors?user_id={{myId}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"{{PREFIX}}",
+										"authors"
+									],
+									"query": [
+										{
+											"key": "user_id",
+											"value": "{{myId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attach User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.environment.set(\"articleSlug\", jsonData.result.data[0].slug);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/{{PREFIX}}/users/{{myId}}/preferences/authors?author_ids[]={{authorId0}}&author_ids[]={{authorId1}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"{{PREFIX}}",
+										"users",
+										"{{myId}}",
+										"preferences",
+										"authors"
+									],
+									"query": [
+										{
+											"key": "author_ids[]",
+											"value": "{{authorId0}}"
+										},
+										{
+											"key": "author_ids[]",
+											"value": "{{authorId1}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.environment.set(\"categoryId0\", jsonData.result.data[0].id);\r",
+											"    pm.environment.set(\"categoryId1\", jsonData.result.data[1].id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/{{PREFIX}}/categories?user_id={{myId}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"{{PREFIX}}",
+										"categories"
+									],
+									"query": [
+										{
+											"key": "user_id",
+											"value": "{{myId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attach User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.environment.set(\"articleSlug\", jsonData.result.data[0].slug);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/{{PREFIX}}/users/{{myId}}/preferences/categories?category_ids[]={{categoryId0}}&category_ids[]={{categoryId1}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"{{PREFIX}}",
+										"users",
+										"{{myId}}",
+										"preferences",
+										"categories"
+									],
+									"query": [
+										{
+											"key": "category_ids[]",
+											"value": "{{categoryId0}}"
+										},
+										{
+											"key": "category_ids[]",
+											"value": "{{categoryId1}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Preferences delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/users/{{myId}}/preferences?source_ids[]={{sourceId0}}&source_ids[]={{sourceId1}}&author_ids[]={{authorId0}}&author_ids[]={{authorId1}}&category_ids[]={{categoryId0}}&category_ids[]={{categoryId1}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"users",
+								"{{myId}}",
+								"preferences"
+							],
+							"query": [
+								{
+									"key": "source_ids[]",
+									"value": "{{sourceId0}}"
+								},
+								{
+									"key": "source_ids[]",
+									"value": "{{sourceId1}}"
+								},
+								{
+									"key": "author_ids[]",
+									"value": "{{authorId0}}"
+								},
+								{
+									"key": "author_ids[]",
+									"value": "{{authorId1}}"
+								},
+								{
+									"key": "category_ids[]",
+									"value": "{{categoryId0}}"
+								},
+								{
+									"key": "category_ids[]",
+									"value": "{{categoryId1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/user",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/users/{{myId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"users",
+								"{{myId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Preferences",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{PREFIX}}/users/{{myId}}/preferences?source_ids[]={{sourceId0}}&source_ids[]={{sourceId1}}&author_ids[]={{authorId0}}&author_ids[]={{authorId1}}&category_ids[]={{categoryId0}}&category_ids[]={{categoryId1}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{PREFIX}}",
+								"users",
+								"{{myId}}",
+								"preferences"
+							],
+							"query": [
+								{
+									"key": "source_ids[]",
+									"value": "{{sourceId0}}"
+								},
+								{
+									"key": "source_ids[]",
+									"value": "{{sourceId1}}"
+								},
+								{
+									"key": "author_ids[]",
+									"value": "{{authorId0}}"
+								},
+								{
+									"key": "author_ids[]",
+									"value": "{{authorId1}}"
+								},
+								{
+									"key": "category_ids[]",
+									"value": "{{categoryId0}}"
+								},
+								{
+									"key": "category_ids[]",
+									"value": "{{categoryId1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "Guardian API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://content.guardianapis.com/search?page=2&q=debate&api-key=test",
+							"protocol": "https",
+							"host": [
+								"content",
+								"guardianapis",
+								"com"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "q",
+									"value": "debate"
+								},
+								{
+									"key": "api-key",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "News API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://newsapi.org/v2/top-headlines?country=us&apiKey=c95ec738abe74b708871b99d6673cc85",
+							"protocol": "https",
+							"host": [
+								"newsapi",
+								"org"
+							],
+							"path": [
+								"v2",
+								"top-headlines"
+							],
+							"query": [
+								{
+									"key": "country",
+									"value": "us"
+								},
+								{
+									"key": "apiKey",
+									"value": "c95ec738abe74b708871b99d6673cc85"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Media Stack API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://api.mediastack.com/v1/news?access_key=6490528b65c9d28894748cf10c6d0a52",
+							"protocol": "http",
+							"host": [
+								"api",
+								"mediastack",
+								"com"
+							],
+							"path": [
+								"v1",
+								"news"
+							],
+							"query": [
+								{
+									"key": "access_key",
+									"value": "6490528b65c9d28894748cf10c6d0a52"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Newyork Times API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json?api-key=LqRN1w7XrZYdVTTo5aYSwLlVtJXBEcRS",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nytimes",
+								"com"
+							],
+							"path": [
+								"svc",
+								"mostpopular",
+								"v2",
+								"viewed",
+								"1.json"
+							],
+							"query": [
+								{
+									"key": "api-key",
+									"value": "LqRN1w7XrZYdVTTo5aYSwLlVtJXBEcRS"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "elasticsearch_url",
+			"value": "http://localhost:9200",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "apiUrl",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}

@@ -26,13 +26,11 @@ class AuthService extends CrudService
      */
     public function register(array $params) : array
     {
-        # 1. Create User
         $user = $this->userRepository->create($params);
 
         auth()->login($user);
 
-        # 3. Return user with roles
-        return [ auth()->user()->createToken('userToken')->plainTextToken, $user->load('roles')];
+        return [ auth()->user()->createToken('userToken')->plainTextToken, $user];
     }
 
     /**
@@ -50,6 +48,7 @@ class AuthService extends CrudService
             return [false, null];
         }
         $user = $user->with('categories', 'authors', 'sources')->first();
+        
         return [$token, $user];
     }
 

@@ -28,6 +28,7 @@ Route::group([
 ], function ($router) {
     $router->controller(AuthController::class)->group(function ($router) {
         $router->post('/login', 'login')->name('login');
+        $router->post('/register', 'register')->name('register');
         $router->post('/logout', 'logout')->name('logout');
         $router->post('/refresh', 'refresh')->name('refresh');
 
@@ -39,7 +40,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('users', UserController::class)->only('index', 'show');
     Route::apiResource('articles', ArticleController::class)->only('index');
     Route::get('articles/{slug}', [ArticleController::class, 'slug']);
-    Route::apiResource('users/{userId}/preferences', PreferenceController::class);
+    Route::apiResource('users/{userId}/preferences', PreferenceController::class)->except('destroy');
+    Route::delete('users/{userId}/preferences', [PreferenceController::class, 'destroy']);
     Route::post('users/{userId}/preferences/categories', [PreferenceController::class, 'categoriesAttach']);
     Route::post('users/{userId}/preferences/authors', [PreferenceController::class, 'authorsAttach']);
     Route::post('users/{userId}/preferences/sources', [PreferenceController::class, 'sourcesAttach']);
