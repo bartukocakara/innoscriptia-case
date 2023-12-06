@@ -1,9 +1,9 @@
 import {CreateData, CreateFormData} from '../../services/DataCreateService'
 
-export const createDataAction = (fetchUrl, query = null, navigate = null) =>{
+export const createDataAction = (fetchUrl, query = null, navigate = null, message = null) =>{
     return (dispatch)=>{
         dispatch({type:'LOADING_CREATE'});
-        CreateData(fetchUrl, query).then((res)=>{
+        CreateData(fetchUrl, query, message).then((res)=>{
             if(res.hasOwnProperty('statusCode') && res.statusCode === 201){
                 dispatch({type:'DATA_CREATE_SUCCESS', res});
             }else if(res.hasOwnProperty('statusCode') && res.statusCode > 300) { 

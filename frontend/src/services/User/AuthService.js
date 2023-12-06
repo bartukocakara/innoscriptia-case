@@ -12,6 +12,7 @@ export const SignUpService = async (credentials, navigate) =>{
             var user = response.result.user
             localStorage.setItem('token', JSON.stringify(token))
             localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('preferences', JSON.stringify(user?.preferences))
             setTimeout(() => {
                 navigate('/articles')
             }, 1500)
@@ -19,7 +20,7 @@ export const SignUpService = async (credentials, navigate) =>{
         }
         return response
     } catch (error) {
-      throw new Error(`Error calling LoginUser: ${error}`);
+      throw new Error(`Error calling RegistrUser: ${error}`);
     }
 }
 

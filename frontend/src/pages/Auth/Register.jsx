@@ -3,6 +3,7 @@ import { Link, useNavigate  } from 'react-router-dom'
 import { SignUpService } from '../../services/User/AuthService';
 import useFormValidation from '../../hooks/useFormValidation'
 import { checkPasswordMatch } from '../../utils/passwordMatch';
+import { Spinner } from 'react-bootstrap'
 
 export default function Register() {
 
@@ -15,10 +16,11 @@ export default function Register() {
             email: '', 
             name: '',
             password: '',
-            confirm: '',
+            password_confirmation: '',
         },
     );
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [ loading, setLoading ] = useState(false)
 
     const navigate = useNavigate()
 
@@ -31,26 +33,39 @@ export default function Register() {
 
     const ResigterUser = async (event) => {
         event.preventDefault();
-        const passwordMatch = checkPasswordMatch(formDatas.password, formDatas.confirm);
+        const passwordMatch = checkPasswordMatch(formDatas.password, 
+                                                 formDatas.password_confirmation);
         if(passwordMatch === false) {
+            setLoading(false)
+            setValidationErrors({
+                password_confirmation : [
+                    "Password doesn't match"
+                ]
+            });
             return
         }
 
         const errors = validateFormData(formDatas, ['email', 'password']);
         if (errors.length > 0) {
+            setLoading(false)
             setValidationErrors(errors);
+
+            setTimeout(() => {
+                setValidationErrors({})
+            }, 2000);
             return;
         }
 
         const data = await SignUpService(formDatas, navigate);
+        setLoading(true)
+
         if(data) {
-            if (data && !data?.hasOwnProperty('statusCode')) {
+            if (!data?.hasOwnProperty('statusCode')) {
                   setValidationErrors(data);
-            } else if (data?.statusCode === 401) {
-                  setValidationErrors({
-                      password : ['Invalid password']
-                  });
-            }
+            } else if (data?.statusCode === 422) {
+                setValidationErrors(data.result);
+                setLoading(false)
+          }
         }
     }
 
@@ -126,17 +141,20 @@ export default function Register() {
                         <h6 >Password confirmation : </h6>
                         <input type={passwordVisible ? 'text' : 'password'}
                             className="form-control"
-                            id="confirm"
+                            id="password_confirmation"
                             placeholder="············"
-                            value = {formDatas.confirm}
+                            value = {formDatas.password_confirmation}
                             onChange={handleChange}
                             minLength='6'
                             maxLength='50'
                             style={{ backgroundColor: '#fff', color: '#1b2e4b'}}
                         />
-                        <span className="invalid-feedback" role="alert">
-                            <strong></strong>
-                        </span>
+                       {
+                            validationErrors?.password_confirmation && 
+                            validationErrors.password_confirmation.map((item, index) => (
+                                <span key={index} className="text-danger">{item}</span>
+                            ))
+                        }
                     </div>
                     <div className="field-wrapper toggle-pass">
                         <p className="d-inline-block">
@@ -150,12 +168,15 @@ export default function Register() {
                             />
                     </div>
                     <div className="form-group col-lg-6 col-sm-12">
-                        <button className="btn btn-primary"
+                        <button className="btn btn-lg btn-success"
                                 disabled={!Object.values(formDatas).every(value => Boolean(value))}
                                 >
-                            Register
+                            {
+                                loading ?  <Spinner /> : "Register"
+                            }
                         </button>
-                        <Link to="/login" className="btn btn-primary ml-2" href="">Login</Link>
+                        <p>Do you have an account ? please <Link to="/login" className="btn btn-primary ml-2" href="">Login</Link></p>
+                        
                     </div>
                 </div>
             </form>  

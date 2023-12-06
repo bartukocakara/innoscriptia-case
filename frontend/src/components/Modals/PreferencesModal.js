@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { createDataAction } from '../../store/actions/DataCreateAction';
@@ -33,21 +33,6 @@ const PreferencesModal = (props) => {
         }));
     }, [data, userPreferences, preferenceType]);
 
-    useEffect(() => {   
-        const updatedPreferences = {};
-        Object.keys(userPreferences).forEach((type) => {
-            updatedPreferences[type] = preferences[type]?.map((prefItem) => {
-                const userPrefItem = userPreferences[type].find((userItem) => userItem.id === prefItem.id);
-                return {
-                    ...prefItem,
-                    checked: userPrefItem ? userPrefItem.checked : false,
-                };
-            }) || [];
-        });
-        setPreferences(updatedPreferences);
-        setLoading(false);
-    }, [userPreferences]);
-
     useEffect(() => {
         setLoading(true)
         setTimeout(() => {
@@ -72,11 +57,15 @@ const PreferencesModal = (props) => {
             }))
         };
         try {
-            dispatch(createDataAction(`users/${id}/preferences/${preferenceType}`, preferencesData));
+            dispatch(createDataAction(`users/${id}/preferences/${preferenceType}`, 
+                                        preferencesData,
+                                        null, 
+                                        `${preferenceType} preferences updated successfuly`));
             setTimeout(() => {
                 setButtonDisabled(false)
                 setLoading(false)
                 localStorage.setItem('preferences', JSON.stringify(updatedPreferences))
+                setUserPreferences(updatedPreferences)
             }, 1500);
         } catch (error) {
             console.log(error)
@@ -105,51 +94,52 @@ const PreferencesModal = (props) => {
         });
     };
 
+    console.log(preferences);
+
     return (
         <Modal show={props.show} 
-               onHide={props.onHide}>
+               onHide={props.onHide} size="lg">
             <Modal.Header closeButton>
                 <Modal.Title>
                     Preferences
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <div className="info">
-                <div className="row">
-                    <div className="statbox widget box box-shadow">
-                        <div className='simple-tab'>
-                            <ul className="nav nav-tabs  mb-3 mt-3" id="simpletab" role="tablist">
-                                <li className="nav-item">
-                                    <a className="nav-link active" onClick={() => {handleNavbar('categories', 'category_ids')}} href={`#${preferenceType}`} data-toggle="tab" role="tab" aria-controls="categories" aria-selected="true">
-                                        Categories
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" onClick={() => {handleNavbar('sources')}} href={`#${preferenceType}`} id="sources-tab" data-toggle="tab"  role="tab" aria-controls="sources" aria-selected="false">
-                                        Sources
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" onClick={() => {handleNavbar('authors')}} href={`#${preferenceType}`} id="authors-tab" data-toggle="tab"  role="tab" aria-controls="authors" aria-selected="false">
-                                        Authors
-                                    </a>
-                                </li>
-                            </ul>
-                            <div className="tab-content" id="simpletabContent">
-                                <div className="tab-pane fade show active" id="categories" role="tabpanel" aria-labelledby="categories-tab">
-                                    <div className='row'>
-                                        <FormPreferences data={preferences[preferenceType]} 
-                                                        loading={loading}
-                                                        buttonDisabled={buttonDisabled}
-                                                        handleChange={handleChange}
-                                                        handleSubmit={handleSubmit} />
-                                    </div> 
-                                </div>
+                <div >
+                <div className="row m-auto">
+                    <div className='simple-tab w-100'>
+                        <ul className="nav nav-tabs mb-3 mt-3" id="simpletab" role="tablist">
+                            <li className="nav-item">
+                                <a className="nav-link active" 
+                                    onClick={() => {handleNavbar('categories', 'category_ids')}} href={`#${preferenceType}`} data-toggle="tab" role="tab" aria-controls="categories" aria-selected="true">
+                                    Categories
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" 
+                                    onClick={() => {handleNavbar('sources', 'source_ids')}} href={`#${preferenceType}`} id="sources-tab" data-toggle="tab"  role="tab" aria-controls="sources" aria-selected="false">
+                                    Sources
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" 
+                                    onClick={() => {handleNavbar('authors', 'author_ids')}} href={`#${preferenceType}`} id="authors-tab" data-toggle="tab"  role="tab" aria-controls="authors" aria-selected="false">
+                                    Authors
+                                </a>
+                            </li>
+                        </ul>
+                        <div className="tab-content" id="simpletabContent">
+                            <div className="tab-pane fade show active" id="categories" role="tabpanel" aria-labelledby="categories-tab">
+                                    <FormPreferences data={preferences[preferenceType]} 
+                                                    loading={loading}
+                                                    buttonDisabled={buttonDisabled}
+                                                    handleChange={handleChange}
+                                                    handleSubmit={handleSubmit} />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="danger" 

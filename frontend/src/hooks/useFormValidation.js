@@ -28,7 +28,9 @@ const useFormValidation = (initialState) => {
                 }));
             }
         }
-        setValidationErrors(newErrors);
+        setTimeout(() => {
+            setValidationErrors({});
+        }, 3000);
     };
     
     const validateEmail = (email) => {
@@ -39,9 +41,9 @@ const useFormValidation = (initialState) => {
         let errors = {};
         for (const field of fields) {
             if (!data[field]) {
-            errors[field] = [`${field} is required`];
+            errors[0] = [`${field} is required`];
             } else if (field === 'email' && !validateEmail(data[field])) {
-            errors[field] = ['Invalid email format'];
+            errors[0] = ['Invalid email format'];
             }
         }
       return errors;

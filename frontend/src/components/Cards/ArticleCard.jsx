@@ -1,6 +1,8 @@
 import React from 'react';
 import '../../component-style/cards/card.css'
 
+const spanStyle = { overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }
+
 const ArticleCard = (props) => {
 
     return (
@@ -15,29 +17,28 @@ const ArticleCard = (props) => {
                         </span>
                     </div>
                     <div className="card-body">
-                        <div className="progress-order">
-                            <div className="progress-order-header">
-                                <div className="row border">
-                                    <div className="col-lg-12 col-md-12 col-sm-6 text-center m-auto p-3">
-                                        <h6>
-                                            {props.data.description}
-                                        </h6>
-                                    </div>
-                                    <div className="col-lg-3 col-md-6 col-sm-6 text-center m-auto p-3">
-                                        <h6>{props.data.published_at}</h6>
-                                    </div>
-                                </div>
+                        <div className='w-100'>
+                            <div className='row'>
+                                <p className='badge badge-primary mx-2 col-3' style={spanStyle}>
+                                    Author : {props.data.author?.name}
+                                </p>
+                                <p className='badge badge-success mx-2 col-3' style={spanStyle}>
+                                    Category :{props.data.category?.name}
+                                </p>
+                                <p className='badge badge-secondary mx-2 col-3' style={spanStyle}>
+                                    Source : {props.data.source?.name}
+                                </p>
                             </div>
-                        <div className="row mt-4">
-                                {props.data.items?.length > 0 &&
-                                        props.data.items.map((team) => (
-                                            <div key={team.id} className="col-lg-6 col-md-12">
-                                                <h6>{team.title}</h6>
-                                                
-                                            </div>
-                                    ))}
-                                    
-                                </div>
+                        </div>
+                        <div className="row border">
+                            <div className="col-lg-12 col-md-12 col-sm-6 text-center m-auto p-3">
+                                <h6>
+                                    {props.data.description}
+                                </h6>
+                            </div>
+                            <div className="col-lg-3 col-md-6 col-sm-6 text-center m-auto p-3">
+                                <h6>{props.data.published_at}</h6>
+                            </div>
                             </div>
                             { props.cardFooter({
                                                 prefix : props.prefix, 

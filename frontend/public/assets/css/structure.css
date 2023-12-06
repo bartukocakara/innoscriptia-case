@@ -267,7 +267,9 @@ body.light .navbar {
   flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
-  list-style: none; }
+  list-style: none;
+  margin-left:auto
+ }
   .navbar-expand-sm .navbar-item .nav-link {
     line-height: 2.75rem;
     padding: 6.24px 9.6px;
@@ -1138,9 +1140,7 @@ body.light #sidebar ul.menu-categories ul.submenu > li a {
     ======================
 */
 @media (max-width: 767px) {
-  .navbar .theme-brand li.theme-text {
-    display: none;
-    margin-right: 0; }
+  
     #content {
       margin-top: 90px; }
   .navbar .navbar-item .nav-item .form-inline.search {
@@ -1211,8 +1211,6 @@ body.light #sidebar ul.menu-categories ul.submenu > li a {
   .text-mobile {
     display: none;
   }
-.sub-header-container {
-  top: 80px;}
   .navbar .navbar-item .nav-item.message-dropdown .dropdown-menu {
     min-width: 16.2rem; }
   .sub-header-container .breadcrumb-one .breadcrumb-item:not(.active), .sub-header-container .breadcrumb-one .breadcrumb-item + .breadcrumb-item::before {

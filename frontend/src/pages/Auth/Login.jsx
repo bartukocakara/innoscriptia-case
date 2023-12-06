@@ -44,7 +44,9 @@ const Login = () => {
                   setValidationErrors({
                       password : ['Invalid password']
                   });
-            }
+            } else if (data?.statusCode === 422) {
+                setValidationErrors(data.result);
+          }
         }
     };
 
@@ -54,14 +56,7 @@ const Login = () => {
 
     return (
         <div className='sign-box row'>
-            {
-                loading ? (
-                    <div style={{ margin:'30% 20%' }}>
-                        <h6>Redirecting to articles page</h6>
-                        <Spinner />
-                    </div>
-                ) : (
-                <div className='mx-5'>
+            <div className='mx-5'>
                     <h1 className='mb-4'>
                         Login 
                         <Link to='/login'>
@@ -126,7 +121,9 @@ const Login = () => {
                                         className='btn btn-primary' 
                                         disabled={!Object.values(formDatas).every(value => Boolean(value))}
                                         >
-                                          Login
+                                        {
+                                          loading ?  <Spinner /> : "Login"
+                                        }
                                 </button>
                             </div>
                             <div className='field-wrapper'>
@@ -149,9 +146,6 @@ const Login = () => {
                         </div>
                     </form>
                 </div>
-                )
-            }
-            
         </div>
     )
 }

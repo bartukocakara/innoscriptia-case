@@ -3,14 +3,14 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { capitalizeFirstLetter } from "../utils/stringHandler";
 
-export const CreateData = async (url, query = null) => {
+export const CreateData = async (url, query = null, message = 'Created Succesfully') => {
         const http = new HttpService();
         const token = "token";
         return http.postData(query, url, token).then(data => {
             const statusCode = data.statusCode
             switch (statusCode) {
                 case 201:
-                    toast.success('Created Succesfully', {
+                    toast.success(message, {
                         position: toast.POSITION.TOP_RIGHT
                       });
                     break;

@@ -67,7 +67,7 @@ export default class HttpService
                     }
                     return response
                 
-            });
+                });
     }
 
     deleteData = async(added_url, tokenId="", item= null, contentType = "application/json") =>{
