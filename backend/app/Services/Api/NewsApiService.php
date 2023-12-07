@@ -15,7 +15,7 @@ class NewsApiService extends BaseApiService
 {
     public function getUrl(): string
     {
-        return config('services.news_api.api_url').'/top-headlines?country=us&apiKey='.config('services.news_api.api_key');
+        return config('services.news_api.url').'/top-headlines?country=us&apiKey='.config('services.news_api.api_key');
     }
 
     public function getData($sourceId)

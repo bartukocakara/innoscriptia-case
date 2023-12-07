@@ -15,7 +15,7 @@ class GuardianApiService extends BaseApiService
 {
     public function getUrl(): string
     {
-        return config('services.guardian_api.api_url').'/search?api-key='.config('services.guardian_api.api_key');
+        return config('services.guardian_api.url').'/search?api-key='.config('services.guardian_api.api_key');
     }
 
     public function getData($sourceId)

@@ -6,7 +6,7 @@ RUN apt-get update -y && apt-get install -y openssl zip unzip git curl libonig-d
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN docker-php-ext-install pcntl pdo_pgsql
+RUN docker-php-ext-install mysqli pdo_mysql pcntl pdo_pgsql
 
 RUN docker-php-ext-configure pcntl --enable-pcntl
 

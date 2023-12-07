@@ -14,7 +14,7 @@ class NewyorkTimesApiService extends BaseApiService
 {
     public function getUrl(): string
     {
-        return config('services.newyork_times_api.api_url').'/1.json?api-key='.config('services.newyork_times_api.api_key');
+        return config('services.newyork_times_api.url').'/1.json?api-key='.config('services.newyork_times_api.api_key');
     }
 
     public function getData($sourceId)

@@ -71,6 +71,7 @@ const Login = () => {
                         <div className='form'>
                             <div className='form-group'>
                                 <h6>Email :</h6>
+                                <span>kocakarabartu@gmail.com</span>
                                 <input
                                     className='form-control'
                                     placeholder='john@example.com'
@@ -89,6 +90,7 @@ const Login = () => {
                             }
                             <div className='form-group'>
                                 <h6>Password :</h6>
+                                <span>123456</span>
                                 <input
                                     type={passwordVisible ? 'text' : 'password'}
                                     className='form-control form-control-merge'

@@ -15,7 +15,7 @@ class MediaStackApiService extends BaseApiService
 {
     public function getUrl(): string
     {
-        return config('services.media_stack_api.api_url').'/news?access_key='.config('services.media_stack_api.api_key');
+        return config('services.media_stack_api.url').'/news?access_key='.config('services.media_stack_api.api_key');
     }
 
     public function getData($sourceId)

@@ -7,10 +7,12 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      DB_HOST: pgsql
-      DB_DATABASE: laravel
-      DB_USERNAME: laravel
-      DB_PASSWORD: password
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=innoscripta
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=123456
     restart: always
     ports:
       - 8000:8000
@@ -19,18 +21,18 @@ services:
     networks:
       - app
 
-  # frontend:
-  #   container_name: 'frontend'
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - NODE_ENV=production
-  #   command: npm start
-  #   networks:
-  #     - app
+  frontend:
+    container_name: 'frontend'
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    command: npm start
+    networks:
+      - app
 
   postgres:
     container_name: "postgres"
@@ -38,15 +40,15 @@ services:
     volumes:
       - "./docker/volumes/postgres:/var/lib/postgres"
     environment:
-      - POSTGRES_DB=laravel
-      - POSTGRES_USER=laravel
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=innoscripta
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
     ports:
       - "5432:5432"
     networks:
       - app
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       retries: 3
       timeout: 5s
 
@@ -63,37 +65,11 @@ services:
     networks:
       - app
 
-  redis:
-    container_name: 'redis'
-    image: 'redis:alpine'
-    ports:
-      - '${FORWARD_REDIS_PORT:-6379}:6379'
-    volumes:
-      - ./docker/volumes/redis:/data
-    networks:
-      - app
-
-  elasticsearch:
-    container_name: 'elasticsearch'
-    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.15.0'
-    environment:
-      - discovery.type=single-node
-    ports:
-      - '9200:9200'
-    networks:
-      - app
-
 networks:
   app:
     driver: bridge
 
 volumes:
-  redis:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./docker/volumes/redis
   postgres:
     driver: local
     driver_opts:
