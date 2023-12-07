@@ -19,20 +19,9 @@ Build docker images
 ```
 docker-compose up -d --build
 docker-compose up
+docker ps
 docker exec -it backend  /bin/bash
 php artisan setup:all
-```
-Check if there are any issues with your running containers using the following command:
-
-``docker ps``
-
-If there are any issues, inspect the logs, and ensure that Docker is functioning correctly on your computer.
-
-
-```
-php artisan setup
-php artisan queue:work
-php artisan sync
 ```
 
 ## User Login Credentials
