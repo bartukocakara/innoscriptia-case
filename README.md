@@ -11,7 +11,9 @@ git clone https://github.com/bartukocakara/innoscriptia-case
 ```
 Then navigate to the project directory:
 
-```cd innoscriptia-case```
+```
+cd innoscriptia-case
+```
 
 ## Docker Setup
 Build docker images
