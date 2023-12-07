@@ -28,12 +28,12 @@ php artisan setup:all
 
 ## User Login Credentials
 User login: 
-  - email: kocakarabartu@gmail.com, 
+  - email: kocakarabartu@gmail.com
   - password: password
 
 ## Postgres Management Login Credentials
 User user login: 
- - email: laravel@gmail.com, 
+ - email: laravel@gmail.com
  - password: password
 
 ## Scheduled Tasks
